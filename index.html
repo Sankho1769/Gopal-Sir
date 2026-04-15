@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Gopal Saha Commerce Classes | Kolkata</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ════════════════════════════════════════
+   DESIGN TOKENS
+════════════════════════════════════════ */
+:root{
+  --ink:#1a1208;--paper:#fdf6e3;--gold:#c8922a;--gold-l:#e8b84b;
+  --rust:#8b3a1c;--cream:#f5ead0;--sage:#4a6741;--muted:#7a6a52;
+  --white:#fff;--danger:#c0392b;
+  --radius:12px;--radius-lg:18px;
+  --shadow:0 4px 24px rgba(200,146,42,.10);
+  --shadow-lg:0 16px 56px rgba(200,146,42,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+
+/* ════════════════════════════════════════
+   PAGE SYSTEM
+════════════════════════════════════════ */
+.page{display:none;min-height:100vh}
+.page.active{display:block;animation:pageIn .4s cubic-bezier(.22,1,.36,1)}
+@keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ════════════════════════════════════════
+   UTILITY
+════════════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:.7}}
+@keyframes bounceIn{0%{transform:scale(0)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes pulseGlow{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+@keyframes staggerIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+@keyframes ping{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+@keyframes typeDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.shimmer{background:linear-gradient(90deg,var(--gold) 0%,var(--gold-l) 40%,#fffbe8 50%,var(--gold-l) 60%,var(--gold) 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ════════════════════════════════════════
+   PARTICLES
+════════════════════════════════════════ */
+#pcv{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4}
+
+/* ════════════════════════════════════════
+   BUTTONS
+════════════════════════════════════════ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,255,255,.25),transparent 70%);opacity:0;transition:opacity .3s}
+.btn:active::after{opacity:1}
+.btn-primary{background:var(--rust);color:var(--white);padding:13px 30px;font-size:.9rem}
+.btn-primary:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,146,42,.3)}
+.btn-gold{background:var(--gold);color:var(--white);padding:13px 30px;font-size:.9rem}
+.btn-gold:hover{background:var(--gold-l);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--ink);padding:12px 28px;font-size:.88rem;border:1.5px solid rgba(26,18,8,.18)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--muted);padding:8px 16px;font-size:.78rem;border:1.5px solid rgba(122,106,82,.25)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-danger:hover{border-color:var(--danger);color:var(--danger)}
+.btn-sm{padding:8px 16px;font-size:.78rem;border-radius:6px}
+.btn-full{width:100%;margin-top:6px}
+
+/* ════════════════════════════════════════
+   FORM ELEMENTS
+════════════════════════════════════════ */
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--white);border:1.5px solid rgba(200,146,42,.2);border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,146,42,.1)}
+.fg textarea{resize:vertical;min-height:88px}
+
+/* ════════════════════════════════════════
+   NAV — DESKTOP
+════════════════════════════════════════ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:15px 5vw;background:rgba(253,246,227,.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(200,146,42,.18)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.18rem;font-weight:900;color:var(--rust);cursor:pointer;flex-shrink:0}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:26px;list-style:none}
+.nav-links a{text-decoration:none;font-size:.8rem;font-weight:500;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;cursor:pointer;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-right{display:flex;gap:8px;align-items:center}
+
+/* Mobile nav */
+.mob-nav{display:none;position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 5vw;background:rgba(253,246,227,.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(200,146,42,.18);align-items:center;justify-content:space-between}
+.mob-hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:5px}
+.mob-hamburger span{display:block;width:24px;height:2px;background:var(--rust);border-radius:2px;transition:all .3s}
+.mob-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.mob-hamburger.open span:nth-child(2){opacity:0}
+.mob-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mob-drawer{position:fixed;top:0;left:0;right:0;bottom:0;z-index:800;background:var(--ink);transform:translateX(-100%);transition:transform .35s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;padding:90px 7vw 40px}
+.mob-drawer.open{transform:translateX(0)}
+.mob-drawer a,.mob-drawer button.mob-link{display:block;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:20px;cursor:pointer;background:none;border:none;text-align:left;text-decoration:none;padding:0;transition:color .2s}
+.mob-drawer a:hover,.mob-drawer button.mob-link:hover{color:var(--gold)}
+.mob-drawer-actions{margin-top:auto;display:flex;flex-direction:column;gap:12px}
+
+/* ════════════════════════════════════════
+   HERO — DESKTOP (two-col)
+════════════════════════════════════════ */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding:110px 5vw 60px;gap:60px;align-items:center;position:relative;overflow:hidden}
+.hero-glow{position:absolute;right:-150px;top:-150px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(200,146,42,.1),transparent 70%);animation:pulse 7s ease-in-out infinite;pointer-events:none}
+.hero-float-badge{position:absolute;bottom:130px;right:6vw;background:var(--ink);color:var(--white);padding:13px 18px;border-radius:12px;font-size:.76rem;font-weight:600;box-shadow:0 16px 48px rgba(0,0,0,.2);animation:float 4s ease-in-out infinite;line-height:1.4}
+.hero-float-badge span{display:block;color:var(--gold-l);font-size:1.15rem;font-weight:900}
+.hero-badge-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(200,146,42,.1);border:1px solid rgba(200,146,42,.3);border-radius:100px;padding:5px 15px;font-size:.75rem;font-weight:600;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;animation:fadeUp .8s ease both}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,4.5vw,4rem);font-weight:900;line-height:1.08;letter-spacing:-1px;color:var(--ink);margin-bottom:8px;animation:fadeUp .8s .1s ease both}
+.hero-sub{font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;color:var(--gold);margin-bottom:18px;animation:fadeUp .8s .2s ease both}
+.hero-desc{font-size:.95rem;color:var(--muted);max-width:430px;line-height:1.85;margin-bottom:32px;animation:fadeUp .8s .3s ease both}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .8s .4s ease both}
+.hero-card{background:var(--cream);border:1px solid rgba(200,146,42,.25);border-radius:var(--radius-lg);padding:42px 36px;position:relative;overflow:hidden;animation:float 4s ease-in-out infinite}
+.hero-card::before{content:'"';font-family:'Playfair Display',serif;font-size:11rem;color:rgba(200,146,42,.07);position:absolute;top:-28px;left:8px;line-height:1;pointer-events:none}
+.card-years{font-family:'Playfair Display',serif;font-size:4.8rem;font-weight:900;color:var(--gold);line-height:1}
+.card-years-lbl{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;margin-top:4px;margin-bottom:22px}
+.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;border-top:1px solid rgba(200,146,42,.2);padding-top:22px}
+.stat-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--rust)}
+.stat-lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.7px}
+
+/* ════════════════════════════════════════
+   SECTIONS BASE
+════════════════════════════════════════ */
+section{padding:88px 5vw;position:relative;z-index:1}
+.sec-lbl{font-size:.72rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.7rem);font-weight:900;line-height:1.15;color:var(--ink);margin-bottom:13px}
+.sec-sub{font-size:.95rem;color:var(--muted);max-width:540px;line-height:1.85;margin-bottom:50px}
+
+/* ════════════════════════════════════════
+   ABOUT
+════════════════════════════════════════ */
+.about{background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:72px;align-items:center}
+.about-text p{color:var(--muted);font-size:.95rem;line-height:1.9;margin-bottom:15px}
+.hl-list{display:flex;flex-direction:column;gap:16px;margin-top:26px}
+.hl-item{display:flex;align-items:flex-start;gap:13px}
+.hl-icon{width:38px;height:38px;border-radius:8px;background:rgba(200,146,42,.12);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.hl-item h4{font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.hl-item p{font-size:.8rem;color:var(--muted);margin:0}
+.quote-box{background:var(--ink);border-radius:var(--radius-lg);padding:42px 32px;color:var(--white);position:relative;overflow:hidden}
+.quote-box::before{content:'"';font-family:'Playfair Display',serif;font-size:9rem;color:rgba(255,255,255,.06);position:absolute;top:-16px;left:14px;line-height:1}
+.quote-box blockquote{font-family:'Playfair Display',serif;font-size:1.22rem;font-style:italic;line-height:1.7;color:#f0e8d0;position:relative;z-index:1;margin-bottom:18px}
+.quote-box cite{font-size:.78rem;font-style:normal;font-weight:600;color:var(--gold-l);letter-spacing:1px;text-transform:uppercase}
+
+/* ════════════════════════════════════════
+   FEES
+════════════════════════════════════════ */
+.fees-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.fee-card{background:var(--white);border:1px solid rgba(200,146,42,.15);border-radius:var(--radius);padding:32px 26px;position:relative;transition:transform .25s,box-shadow .25s}
+.fee-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.fee-card.pop{background:var(--rust);border-color:var(--rust)}
+.fee-pop-badge{position:absolute;top:14px;right:14px;background:var(--gold);color:var(--white);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:100px}
+.fee-cls{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);margin-bottom:8px}
+.fee-card.pop .fee-cls{color:var(--gold-l)}
+.fee-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:8px}
+.fee-card.pop .fee-name{color:var(--white)}
+.fee-amount{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:var(--rust);line-height:1;margin-bottom:3px}
+.fee-card.pop .fee-amount{color:var(--gold-l)}
+.fee-period{font-size:.76rem;color:var(--muted);margin-bottom:20px}
+.fee-card.pop .fee-period{color:rgba(255,255,255,.6)}
+.fee-list{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:24px}
+.fee-list li{font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:7px}
+.fee-list li::before{content:'✓';color:var(--sage);font-weight:700}
+.fee-card.pop .fee-list li{color:rgba(255,255,255,.78)}
+.fee-card.pop .fee-list li::before{color:var(--gold-l)}
+
+/* ════════════════════════════════════════
+   COURSES
+════════════════════════════════════════ */
+.courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.c-card{background:var(--white);border:1px solid rgba(200,146,42,.15);border-radius:var(--radius);padding:30px 24px;transition:transform .25s,box-shadow .25s}
+.c-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.c-card.feat{background:var(--rust);border-color:var(--rust)}
+.c-tag{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;padding:4px 11px;border-radius:100px;background:rgba(200,146,42,.12);color:var(--gold);margin-bottom:16px}
+.c-card.feat .c-tag{background:rgba(255,255,255,.15);color:#f0e8d0}
+.c-card h3{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;line-height:1.3;margin-bottom:10px;color:var(--ink)}
+.c-card.feat h3{color:var(--white)}
+.c-card p{font-size:.84rem;color:var(--muted);line-height:1.7;margin-bottom:18px}
+.c-card.feat p{color:rgba(255,255,255,.7)}
+.c-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.c-list li{font-size:.8rem;color:var(--ink);display:flex;align-items:center;gap:7px}
+.c-list li::before{content:'✦';color:var(--gold);font-size:.58rem}
+.c-card.feat .c-list li{color:rgba(255,255,255,.85)}
+
+/* ════════════════════════════════════════
+   LOCATION
+════════════════════════════════════════ */
+.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.loc-map{background:var(--cream);border-radius:var(--radius-lg);overflow:hidden;border:1px solid rgba(200,146,42,.2);height:310px;display:flex;align-items:center;justify-content:center}
+.loc-map-inner{text-align:center;padding:24px}
+.loc-map-inner .ico{font-size:2.8rem;margin-bottom:10px}
+.loc-map-inner p{font-size:.88rem;color:var(--muted);line-height:1.7}
+.loc-map-inner a{color:var(--rust);font-weight:600;text-decoration:none}
+.loc-details{display:flex;flex-direction:column;gap:16px}
+.loc-item{display:flex;gap:13px;align-items:flex-start}
+.loc-icon{width:40px;height:40px;border-radius:8px;background:rgba(200,146,42,.12);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.loc-item h4{font-size:.76rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+.loc-item p{font-size:.92rem;color:var(--ink);font-weight:500}
+.loc-item a{color:var(--rust);text-decoration:none;font-weight:600}
+
+/* ════════════════════════════════════════
+   TESTIMONIALS
+════════════════════════════════════════ */
+.testi-sec{background:var(--ink)}
+.testi-sec .sec-lbl{color:var(--gold-l)}
+.testi-sec .sec-title{color:var(--white)}
+.testi-sec .sec-sub{color:rgba(255,255,255,.45)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.t-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:28px 24px;transition:background .2s,transform .2s}
+.t-card:hover{background:rgba(255,255,255,.09);transform:translateY(-4px)}
+.t-stars{color:var(--gold-l);font-size:.8rem;letter-spacing:2px;margin-bottom:13px}
+.t-card p{font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.8;font-style:italic;margin-bottom:20px}
+.t-author{display:flex;align-items:center;gap:11px}
+.t-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--rust));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--white);flex-shrink:0}
+.t-name{font-size:.86rem;font-weight:600;color:var(--white)}
+.t-detail{font-size:.74rem;color:rgba(255,255,255,.38)}
+
+/* ════════════════════════════════════════
+   CONTACT
+════════════════════════════════════════ */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.contact-info h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--ink);margin-bottom:20px}
+.ci-item{display:flex;align-items:flex-start;gap:13px;margin-bottom:16px}
+.ci-icon{width:38px;height:38px;border-radius:8px;background:rgba(200,146,42,.12);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.ci-item h4{font-size:.76rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
+.ci-item p{font-size:.9rem;color:var(--ink);font-weight:500}
+.contact-form-box{background:var(--cream);border-radius:var(--radius-lg);padding:36px 32px;border:1px solid rgba(200,146,42,.18)}
+.contact-form-box h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:22px}
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+.footer{background:var(--ink);padding:42px 5vw 26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(255,255,255,.06)}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1rem;font-weight:900;color:var(--white)}
+.footer-logo span{color:var(--gold)}
+.footer p{font-size:.76rem;color:rgba(255,255,255,.3)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:.76rem;color:rgba(255,255,255,.38);text-decoration:none;cursor:pointer;transition:color .2s}
+.footer-links a:hover{color:var(--gold)}
+
+/* ════════════════════════════════════════
+   ENROLLMENT FORM
+════════════════════════════════════════ */
+.enroll-wrap{background:var(--paper);padding:100px 5vw 60px;min-height:100vh}
+.enroll-hd{text-align:center;margin-bottom:44px}
+.enroll-hd h1{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--ink);margin-bottom:8px}
+.enroll-hd p{color:var(--muted);font-size:.95rem}
+.step-bar{display:flex;justify-content:center;gap:0;margin-bottom:44px;position:relative}
+.step-bar::before{content:'';position:absolute;top:18px;left:50%;transform:translateX(-50%);width:55%;height:2px;background:rgba(200,146,42,.18);z-index:0}
+.sb-step{display:flex;flex-direction:column;align-items:center;gap:7px;position:relative;z-index:1;padding:0 32px}
+.sb-dot{width:36px;height:36px;border-radius:50%;background:rgba(200,146,42,.12);border:2px solid rgba(200,146,42,.25);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:var(--muted);transition:all .3s}
+.sb-step.active .sb-dot{background:var(--rust);border-color:var(--rust);color:var(--white)}
+.sb-step.done .sb-dot{background:var(--sage);border-color:var(--sage);color:var(--white)}
+.sb-lbl{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
+.sb-step.active .sb-lbl{color:var(--rust)}
+.enroll-card{max-width:660px;margin:0 auto;background:var(--white);border:1px solid rgba(200,146,42,.14);border-radius:var(--radius-lg);padding:42px 46px;box-shadow:var(--shadow-lg)}
+.fstep{display:none}
+.fstep.active{display:block;animation:fadeUp .35s ease}
+.fstep h2{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;color:var(--ink);margin-bottom:5px}
+.fstep .fdesc{font-size:.88rem;color:var(--muted);margin-bottom:26px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fnav{display:flex;justify-content:space-between;margin-top:26px;gap:10px}
+
+/* Payment */
+.pay-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.pay-opt{border:2px solid rgba(200,146,42,.2);border-radius:10px;padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:11px;background:var(--white);transition:all .2s}
+.pay-opt:hover{border-color:var(--gold-l)}
+.pay-opt.sel{border-color:var(--rust);background:rgba(139,58,28,.04)}
+.pay-opt-icon{font-size:1.4rem}
+.pay-opt-text h4{font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.pay-opt-text p{font-size:.74rem;color:var(--muted)}
+.upi-box{display:none;text-align:center;padding:22px;background:var(--cream);border-radius:10px;margin-bottom:18px;border:1px solid rgba(200,146,42,.2)}
+.upi-box.show{display:block;animation:fadeUp .3s ease}
+.qr-wrap{display:inline-block;background:var(--white);padding:14px;border-radius:9px;border:2px solid rgba(200,146,42,.22);margin-bottom:12px}
+.upi-id{font-size:.8rem;color:var(--muted);margin-bottom:7px}
+.upi-id strong{color:var(--rust)}
+.upload-area{border:2px dashed rgba(200,146,42,.32);border-radius:9px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;background:var(--paper)}
+.upload-area:hover,.upload-area.drag{border-color:var(--gold);background:rgba(200,146,42,.04)}
+.upload-area input[type=file]{display:none}
+.upload-preview{display:none;margin-top:10px}
+.upload-preview img{max-width:100%;max-height:190px;border-radius:7px;border:1px solid rgba(200,146,42,.2)}
+.cash-note{display:none;background:rgba(74,103,65,.08);border:1px solid rgba(74,103,65,.2);border-radius:9px;padding:14px 16px;font-size:.86rem;color:var(--sage)}
+.total-row{background:var(--cream);border-radius:9px;padding:13px 16px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
+.total-row span{font-size:.88rem;color:var(--muted)}
+.total-row strong{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:900;color:var(--rust)}
+.success-wrap{text-align:center;padding:30px 0}
+.success-ico{font-size:3.8rem;margin-bottom:14px;animation:bounceIn .6s ease}
+.success-wrap h2{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:900;color:var(--sage);margin-bottom:9px}
+.success-wrap p{color:var(--muted);font-size:.93rem;max-width:380px;margin:0 auto 18px}
+.ref-pill{display:inline-block;background:rgba(74,103,65,.1);color:var(--sage);padding:7px 18px;border-radius:100px;font-size:.8rem;font-weight:700;letter-spacing:1px;margin-bottom:26px}
+
+/* ════════════════════════════════════════
+   STUDENT LOGIN PAGE
+════════════════════════════════════════ */
+.slp{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
+/* LEFT PANEL */
+.slp-left{background:var(--ink);display:flex;flex-direction:column;padding:72px 7vw 60px;position:relative;overflow:hidden;justify-content:center}
+.slp-left::before{content:'';position:absolute;top:-180px;right:-180px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(200,146,42,.13),transparent 70%);animation:pulse 7s ease-in-out infinite}
+.slp-left::after{content:'';position:absolute;bottom:-100px;left:-100px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(139,58,28,.15),transparent 70%)}
+.slp-logo{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:900;color:var(--white);margin-bottom:56px;cursor:pointer;position:relative;z-index:1}
+.slp-logo span{color:var(--gold)}
+.slp-left h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:900;color:var(--white);line-height:1.12;margin-bottom:16px;position:relative;z-index:1}
+.slp-left h1 em{font-style:italic;color:var(--gold)}
+.slp-left>p{font-size:.93rem;color:rgba(255,255,255,.52);line-height:1.8;max-width:340px;margin-bottom:36px;position:relative;z-index:1}
+.slp-feat{display:flex;align-items:center;gap:11px;margin-bottom:13px;position:relative;z-index:1}
+.slp-feat-ico{width:34px;height:34px;border-radius:7px;background:rgba(200,146,42,.14);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.slp-feat p{font-size:.83rem;color:rgba(255,255,255,.58);margin:0}
+.slp-nums{display:flex;gap:28px;margin-top:48px;position:relative;z-index:1}
+.slp-num span{display:block;font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:rgba(200,146,42,.55)}
+.slp-num p{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.22);margin:0}
+/* RIGHT PANEL */
+.slp-right{background:var(--paper);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:56px 6vw}
+.slp-right-inner{width:100%;max-width:400px}
+.slp-back-btn{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted);cursor:pointer;border:none;background:transparent;padding:0;margin-bottom:28px;transition:color .2s}
+.slp-back-btn:hover{color:var(--rust)}
+.slp-tabs{display:flex;background:rgba(200,146,42,.08);border-radius:9px;padding:4px;margin-bottom:28px}
+.slp-tab{flex:1;padding:9px;border:none;background:transparent;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .25s}
+.slp-tab.active{background:var(--white);color:var(--rust);box-shadow:0 2px 10px rgba(200,146,42,.13)}
+.slp-panel{display:none}
+.slp-panel.active{display:block;animation:fadeUp .35s ease}
+.slp-title{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:var(--ink);margin-bottom:5px}
+.slp-sub{font-size:.84rem;color:var(--muted);margin-bottom:24px}
+.slp-err{background:rgba(192,57,43,.07);border:1px solid rgba(192,57,43,.22);color:var(--danger);font-size:.8rem;padding:9px 13px;border-radius:7px;margin-bottom:14px;display:none;animation:fadeUp .3s ease}
+.slp-switch{text-align:center;font-size:.78rem;color:var(--muted);margin-top:16px}
+.slp-switch button{background:none;border:none;color:var(--rust);font-weight:600;cursor:pointer;font-size:.78rem;padding:0}
+.slp-hint{background:rgba(200,146,42,.07);border:1px solid rgba(200,146,42,.18);border-radius:8px;padding:12px 14px;font-size:.78rem;color:var(--muted);margin-top:14px;line-height:1.6}
+.slp-hint strong{color:var(--rust)}
+
+/* ════════════════════════════════════════
+   STUDENT DASHBOARD
+════════════════════════════════════════ */
+.dash-page{background:#f4f0e8;min-height:100vh;padding:86px 0 60px}
+.dash-inner{max-width:880px;margin:0 auto;padding:0 22px}
+.dash-topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.dash-welcome{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:900;color:var(--ink)}
+.dash-welcome span{color:var(--rust)}
+.dash-welcome-sub{font-size:.82rem;color:var(--muted);margin-top:2px}
+
+/* Status hero */
+.dash-hero{background:var(--ink);border-radius:var(--radius-lg);padding:34px 38px;margin-bottom:22px;position:relative;overflow:hidden}
+.dash-hero::before{content:'';position:absolute;top:-70px;right:-70px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(200,146,42,.14),transparent 70%)}
+.dash-hero-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:22px}
+.dash-ref{font-size:.68rem;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
+.dash-name{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:var(--white)}
+.dash-ctag{display:inline-block;background:rgba(200,146,42,.18);color:var(--gold-l);font-size:.74rem;font-weight:600;padding:3px 13px;border-radius:100px;margin-top:7px}
+.status-pill{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:100px;font-size:.84rem;font-weight:700}
+.sp-pending{background:rgba(232,184,75,.18);color:var(--gold-l);border:1px solid rgba(232,184,75,.28)}
+.sp-confirmed{background:rgba(46,204,113,.13);color:#2ecc71;border:1px solid rgba(46,204,113,.22)}
+.sp-rejected{background:rgba(231,76,60,.13);color:#e74c3c;border:1px solid rgba(231,76,60,.22)}
+.pill-dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulseGlow 1.8s ease-in-out infinite}
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.ds-item{border-top:1px solid rgba(255,255,255,.08);padding-top:14px}
+.ds-lbl{font-size:.65rem;color:rgba(255,255,255,.32);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.ds-val{font-size:.88rem;color:var(--white);font-weight:600}
+
+/* Timeline */
+.dash-timeline{background:var(--white);border-radius:var(--radius);padding:30px;margin-bottom:20px;border:1px solid rgba(200,146,42,.1)}
+.dash-timeline h3{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:22px}
+.tl-track{position:relative;padding-left:30px}
+.tl-track::before{content:'';position:absolute;left:9px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--gold),rgba(200,146,42,.08))}
+.tl-item{position:relative;margin-bottom:22px}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{position:absolute;left:-30px;top:2px;width:19px;height:19px;border-radius:50%;border:2px solid var(--gold);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:.6rem;transition:all .3s}
+.tl-dot.done{background:var(--sage);border-color:var(--sage);color:var(--white)}
+.tl-dot.cur{background:var(--rust);border-color:var(--rust);color:var(--white);box-shadow:0 0 0 4px rgba(139,58,28,.13)}
+.tl-dot.wait{background:var(--white);border-color:rgba(200,146,42,.25)}
+.tl-title{font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.tl-desc{font-size:.78rem;color:var(--muted)}
+.tl-date{font-size:.7rem;color:var(--gold);font-weight:600;margin-top:2px}
+
+/* Info cards */
+.dash-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.info-card{background:var(--white);border-radius:var(--radius);padding:22px;border:1px solid rgba(200,146,42,.1)}
+.info-card h4{font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:13px}
+.info-row{display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(200,146,42,.07);gap:12px}
+.info-row:last-child{border-bottom:none}
+.ir-key{font-size:.78rem;color:var(--muted);flex-shrink:0}
+.ir-val{font-size:.8rem;color:var(--ink);font-weight:600;text-align:right}
+
+/* Notice */
+.dash-notice{border-radius:var(--radius);padding:18px 22px;margin-bottom:20px;display:flex;gap:13px;align-items:flex-start}
+.n-info{background:rgba(52,152,219,.07);border:1px solid rgba(52,152,219,.18)}
+.n-warn{background:rgba(232,184,75,.09);border:1px solid rgba(200,146,42,.22)}
+.n-ok{background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.18)}
+.n-err{background:rgba(231,76,60,.07);border:1px solid rgba(231,76,60,.18)}
+.n-ico{font-size:1.35rem;flex-shrink:0}
+.n-text h4{font-size:.86rem;font-weight:600;color:var(--ink);margin-bottom:3px}
+.n-text p{font-size:.8rem;color:var(--muted);line-height:1.6}
+
+/* ════════════════════════════════════════
+   ADMIN
+════════════════════════════════════════ */
+.admin-bg{background:#eff2f7;min-height:100vh;padding:80px 0 40px}
+.admin-login-box{max-width:400px;margin:56px auto;background:var(--white);border-radius:var(--radius-lg);padding:40px 38px;box-shadow:0 16px 60px rgba(0,0,0,.08)}
+.admin-login-box h2{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:var(--ink);margin-bottom:5px}
+.admin-login-box p{font-size:.84rem;color:var(--muted);margin-bottom:26px}
+.admin-panel{max-width:1160px;margin:0 auto;padding:0 18px}
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.admin-topbar h1{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:900;color:var(--ink)}
+.admin-topbar p{color:var(--muted);font-size:.82rem;margin-top:2px}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
+.asc{background:var(--white);border-radius:var(--radius);padding:20px 18px;box-shadow:0 2px 16px rgba(0,0,0,.05)}
+.asc:nth-child(1){border-left:4px solid var(--gold)}
+.asc:nth-child(2){border-left:4px solid var(--sage)}
+.asc:nth-child(3){border-left:4px solid var(--rust)}
+.asc:nth-child(4){border-left:4px solid #3498db}
+.asc-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--ink)}
+.asc-lbl{font-size:.72rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.8px}
+.admin-table-wrap{background:var(--white);border-radius:var(--radius);box-shadow:0 2px 16px rgba(0,0,0,.05);overflow:hidden;margin-bottom:22px}
+.atw-hd{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;gap:10px}
+.atw-hd h3{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--ink)}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap}
+.fbtn{padding:5px 12px;border-radius:100px;font-size:.72rem;font-weight:600;border:1.5px solid #e8e0d0;background:transparent;color:var(--muted);cursor:pointer;transition:all .2s}
+.fbtn.active,.fbtn:hover{background:var(--rust);color:var(--white);border-color:var(--rust)}
+table{width:100%;border-collapse:collapse}
+thead{background:#fafaf8}
+th{padding:11px 18px;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);border-bottom:1px solid #f0f0f0}
+td{padding:13px 18px;font-size:.82rem;color:var(--ink);border-bottom:1px solid #f8f6f2;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fdf9f0}
+.sbadge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.sb-pend{background:rgba(232,184,75,.14);color:#b8860b}
+.sb-conf{background:rgba(74,103,65,.11);color:var(--sage)}
+.sb-rej{background:rgba(192,57,43,.09);color:var(--danger)}
+.sb-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.abtns{display:flex;gap:5px}
+.abtn{padding:4px 10px;border-radius:5px;font-size:.68rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+.abtn-ok{background:rgba(74,103,65,.1);color:var(--sage)}
+.abtn-ok:hover{background:var(--sage);color:var(--white)}
+.abtn-no{background:rgba(192,57,43,.09);color:var(--danger)}
+.abtn-no:hover{background:var(--danger);color:var(--white)}
+.view-ss{color:var(--rust);font-size:.76rem;font-weight:600;cursor:pointer;text-decoration:underline}
+
+/* Modal */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center}
+.modal-ov.show{display:flex}
+.modal-box{background:var(--white);border-radius:var(--radius-lg);padding:30px;max-width:480px;width:92%;max-height:90vh;overflow-y:auto;position:relative}
+.modal-close{position:absolute;top:14px;right:14px;background:transparent;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted)}
+.modal-box h3{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--ink);margin-bottom:14px}
+.modal-box img{width:100%;border-radius:7px;border:1px solid rgba(200,146,42,.18);margin-bottom:12px}
+.modal-info p{font-size:.84rem;color:var(--muted);margin-bottom:5px}
+.modal-info strong{color:var(--ink)}
+
+/* ════════════════════════════════════════
+   CHATBOT
+════════════════════════════════════════ */
+.chat-fab{position:fixed;bottom:28px;right:28px;z-index:800;width:58px;height:58px;border-radius:50%;background:var(--rust);color:var(--white);border:none;cursor:pointer;font-size:1.45rem;box-shadow:0 8px 28px rgba(139,58,28,.4);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s}
+.chat-fab:hover{transform:scale(1.1);box-shadow:0 12px 38px rgba(139,58,28,.5)}
+.chat-badge{position:absolute;top:-3px;right:-3px;width:18px;height:18px;border-radius:50%;background:var(--gold);font-size:.58rem;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--white);animation:ping 2s infinite}
+.chat-win{position:fixed;bottom:100px;right:28px;width:350px;max-height:490px;background:var(--white);border-radius:var(--radius-lg);box-shadow:0 18px 72px rgba(0,0,0,.17);z-index:800;display:none;flex-direction:column;overflow:hidden;border:1px solid rgba(200,146,42,.14)}
+.chat-win.open{display:flex;animation:fadeUp .25s ease}
+.chat-hd{background:var(--rust);padding:14px 18px;display:flex;align-items:center;gap:11px;justify-content:space-between}
+.chat-hd-info{display:flex;align-items:center;gap:11px}
+.chat-av{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:.95rem;position:relative}
+.chat-online-dot{width:8px;height:8px;border-radius:50%;background:#2ecc71;border:2px solid var(--rust);position:absolute;bottom:-1px;right:-1px}
+.chat-hd h4{color:var(--white);font-size:.9rem;font-weight:600}
+.chat-hd p{color:rgba(255,255,255,.65);font-size:.7rem}
+.chat-x{background:rgba(255,255,255,.13);border:none;color:var(--white);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.chat-x:hover{background:rgba(255,255,255,.24)}
+.chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;background:#f9f7f3;min-height:240px;max-height:300px}
+.msg{max-width:80%;padding:9px 13px;border-radius:13px;font-size:.82rem;line-height:1.6;animation:msgIn .25s ease}
+.msg.bot{background:var(--white);color:var(--ink);border:1px solid rgba(200,146,42,.13);border-bottom-left-radius:3px;align-self:flex-start}
+.msg.user{background:var(--rust);color:var(--white);border-bottom-right-radius:3px;align-self:flex-end}
+.msg.typing{background:var(--white);border:1px solid rgba(200,146,42,.13);align-self:flex-start}
+.tdots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--muted);margin:0 2px;animation:typeDot 1.2s infinite}
+.tdots span:nth-child(2){animation-delay:.2s}
+.tdots span:nth-child(3){animation-delay:.4s}
+.qreplies{display:flex;gap:5px;flex-wrap:wrap;padding:0 14px 10px}
+.qr{background:rgba(200,146,42,.09);border:1px solid rgba(200,146,42,.22);color:var(--rust);padding:5px 11px;border-radius:100px;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.qr:hover{background:var(--rust);color:var(--white);border-color:var(--rust)}
+.chat-input-row{padding:10px 12px;border-top:1px solid #f0f0f0;display:flex;gap:7px;background:var(--white)}
+.chat-inp{flex:1;border:1.5px solid rgba(200,146,42,.18);border-radius:7px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;color:var(--ink)}
+.chat-inp:focus{border-color:var(--gold)}
+.chat-send{background:var(--rust);color:var(--white);border:none;width:36px;height:36px;border-radius:7px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
+.chat-send:hover{background:var(--gold)}
+
+/* ════════════════════════════════════════
+   DESKTOP RESPONSIVE TWEAKS
+════════════════════════════════════════ */
+@media(min-width:901px){
+  .mob-nav,.mob-drawer{display:none!important}
+}
+
+/* ════════════════════════════════════════
+   MOBILE — complete redesign
+════════════════════════════════════════ */
+@media(max-width:900px){
+  /* Hide desktop nav, show mobile */
+  .nav{display:none}
+  .mob-nav{display:flex}
+
+  /* HERO mobile: single column, compact */
+  .hero{grid-template-columns:1fr;padding:88px 5vw 48px;gap:36px;text-align:center}
+  .hero-cta{justify-content:center}
+  .hero-desc{margin-left:auto;margin-right:auto}
+  .hero-float-badge{display:none}
+  .hero-card{max-width:360px;margin:0 auto}
+
+  /* Sections */
+  section{padding:64px 5vw}
+  .sec-sub{margin-bottom:32px}
+
+  /* Grids → single column */
+  .about-grid,.contact-grid,.loc-grid{grid-template-columns:1fr;gap:32px}
+  .fees-grid,.courses-grid,.testi-grid{grid-template-columns:1fr;gap:16px}
+  .form-row{grid-template-columns:1fr}
+  .admin-stats{grid-template-columns:1fr 1fr}
+
+  /* Enrollment */
+  .enroll-card{padding:26px 22px}
+  .enroll-wrap{padding:84px 4vw 48px}
+  .step-bar{gap:0}
+  .sb-step{padding:0 16px}
+
+  /* Student login → single column (form only) */
+  .slp{grid-template-columns:1fr;min-height:100vh}
+  .slp-left{display:none}
+  .slp-right{padding:96px 6vw 48px;align-items:stretch}
+  .slp-right-inner{max-width:100%}
+
+  /* Dashboard */
+  .dash-inner{padding:0 16px}
+  .dash-stats{grid-template-columns:1fr 1fr}
+  .dash-cards{grid-template-columns:1fr}
+  .dash-hero{padding:26px 22px}
+  .dash-name{font-size:1.4rem}
+
+  /* Admin */
+  .admin-panel{padding:0 12px}
+  .admin-stats{grid-template-columns:1fr 1fr}
+  table{font-size:.76rem}
+  th,td{padding:9px 11px}
+
+  /* Chat */
+  .chat-win{width:calc(100vw - 36px);right:18px}
+  .chat-fab{bottom:20px;right:20px}
+
+  /* Footer */
+  .footer{flex-direction:column;align-items:flex-start;gap:12px;padding:32px 5vw 24px}
+  .footer-links{flex-wrap:wrap}
+}
+
+/* ════════════════════════════════════════
+   MOBILE HERO — special stacked layout
+════════════════════════════════════════ */
+@media(max-width:600px){
+  .hero-title{font-size:2.2rem}
+  .card-years{font-size:3.6rem}
+  .card-stats{grid-template-columns:1fr 1fr}
+  .fees-grid,.courses-grid,.testi-grid{gap:14px}
+  .enroll-card{border-radius:12px;padding:22px 18px}
+  .sb-lbl{display:none}
+  .slp-tabs{flex-direction:column;gap:4px}
+  .slp-tab{border-radius:6px}
+  .dash-stats{grid-template-columns:1fr 1fr;gap:10px}
+  .dash-hero{padding:22px 18px}
+  .admin-stats{grid-template-columns:1fr}
+}
+
+/* QR Code SVG */
+.qr-svg{width:150px;height:150px}
+</style>
+</head>
+<body>
+
+<canvas id="pcv"></canvas>
+
+<!-- ═══════════ DESKTOP NAV ═══════════ -->
+<nav class="nav" id="desktopNav">
+  <div class="nav-logo" onclick="goPage('home')">Gopal <span>Saha</span></div>
+  <ul class="nav-links">
+    <li><a onclick="scrollSec('#about')">About</a></li>
+    <li><a onclick="scrollSec('#fees')">Fees</a></li>
+    <li><a onclick="scrollSec('#courses')">Courses</a></li>
+    <li><a onclick="scrollSec('#location')">Location</a></li>
+    <li><a onclick="scrollSec('#testimonials')">Reviews</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn btn-ghost btn-sm" onclick="goPage('student-login')" style="border-color:rgba(200,146,42,.35);color:var(--gold)">🎓 Student Login</button>
+    <button class="btn btn-ghost btn-sm" onclick="goPage('admin')">Admin ⚙</button>
+    <button class="btn btn-primary btn-sm" onclick="goPage('enroll')">Enrol Now →</button>
+  </div>
+</nav>
+
+<!-- ═══════════ MOBILE NAV ═══════════ -->
+<div class="mob-nav" id="mobNav">
+  <div class="nav-logo" onclick="goPage('home');closeMobMenu()">Gopal <span>Saha</span></div>
+  <button class="mob-hamburger" id="hamBtn" onclick="toggleMobMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+<div class="mob-drawer" id="mobDrawer">
+  <a onclick="scrollSec('#about');closeMobMenu()">About</a>
+  <a onclick="scrollSec('#fees');closeMobMenu()">Fees</a>
+  <a onclick="scrollSec('#courses');closeMobMenu()">Courses</a>
+  <a onclick="scrollSec('#location');closeMobMenu()">Location</a>
+  <a onclick="scrollSec('#testimonials');closeMobMenu()">Reviews</a>
+  <a onclick="scrollSec('#contact');closeMobMenu()">Contact</a>
+  <div class="mob-drawer-actions">
+    <button class="mob-link" onclick="goPage('student-login');closeMobMenu()" style="color:var(--gold-l)">🎓 Student Login</button>
+    <button class="btn btn-primary" onclick="goPage('enroll');closeMobMenu()">Enrol Now →</button>
+    <button class="btn btn-ghost" style="color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.15)" onclick="goPage('admin');closeMobMenu()">Admin ⚙</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     HOME PAGE
+═══════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-float-badge">⭐ Top Rated<span>4.9 / 5.0</span>2,500+ Students</div>
+  <div class="hero-left">
+    <div class="hero-badge-pill">★ West Bengal Board Specialist</div>
+    <h1 class="hero-title">Master<br/><em class="shimmer">Commerce</em><br/>with Confidence</h1>
+    <p class="hero-sub">Guided by Shri Gopal Saha — Kolkata's Most Trusted Mentor</p>
+    <p class="hero-desc">Four decades of shaping brilliant commerce minds. From Class XI to B.Com, personalised coaching aligned to the WB Board syllabus.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="goPage('enroll')">Enrol Online →</button>
+      <button class="btn btn-outline" onclick="scrollSec('#fees')">View Fees</button>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="card-years">40+</div>
+    <div class="card-years-lbl">Years of Excellence</div>
+    <div class="card-stats">
+      <div><div class="stat-num">2,500+</div><div class="stat-lbl">Students</div></div>
+      <div><div class="stat-num">98%</div><div class="stat-lbl">Pass Rate</div></div>
+      <div><div class="stat-num">WB Board</div><div class="stat-lbl">Expert</div></div>
+      <div><div class="stat-num">XI–BCom</div><div class="stat-lbl">Coverage</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p class="sec-lbl">About the Teacher</p>
+      <h2 class="sec-title">Shri Gopal Saha</h2>
+      <p>With over <strong>40 years of dedicated teaching</strong>, Shri Gopal Saha has become one of West Bengal's most respected commerce educators. Generations of students have benefited from his patient, systematic approach.</p>
+      <p>He specialises in the <strong>West Bengal Board (WBBSE / WBCHSE)</strong> curriculum and Calcutta University B.Com syllabus, ensuring every student excels.</p>
+      <p>His philosophy: <em>clarity before complexity</em>. Every lesson is structured so commerce feels intuitive, not intimidating.</p>
+      <div class="hl-list">
+        <div class="hl-item"><div class="hl-icon">🎓</div><div><h4>M.Com, Calcutta University</h4><p>Post-graduate in Commerce with distinction</p></div></div>
+        <div class="hl-item"><div class="hl-icon">📋</div><div><h4>WB Board Examiner</h4><p>Former question paper setter &amp; examiner for WBCHSE</p></div></div>
+        <div class="hl-item"><div class="hl-icon">🏆</div><div><h4>Award-Winning Educator</h4><p>Recognised by local trusts for outstanding teaching</p></div></div>
+      </div>
+    </div>
+    <div class="quote-box reveal d2">
+      <blockquote>"Commerce is not just a subject — it is the language of modern life. Once a student truly understands it, every door opens."</blockquote>
+      <cite>— Gopal Saha, Commerce Educator</cite>
+    </div>
+  </div>
+</section>
+
+<!-- FEES -->
+<section id="fees">
+  <div class="reveal"><p class="sec-lbl">Monthly Fees</p><h2 class="sec-title">Transparent &amp; Affordable</h2><p class="sec-sub">All fees are monthly. One-time registration: ₹200. Sibling discount: 10% off.</p></div>
+  <div class="fees-grid">
+    <div class="fee-card reveal d1">
+      <div class="fee-cls">Class XI</div>
+      <div class="fee-name">Higher Secondary — Year 1</div>
+      <div class="fee-amount">₹800</div>
+      <div class="fee-period">per month</div>
+      <ul class="fee-list"><li>5 classes/week</li><li>Study materials included</li><li>Monthly test &amp; evaluation</li><li>Doubt clearing sessions</li><li>WB Board pattern practice</li></ul>
+      <button class="btn btn-primary btn-full" onclick="goPage('enroll')">Enrol for Class XI</button>
+    </div>
+    <div class="fee-card pop reveal d2">
+      <div class="fee-pop-badge">Most Popular</div>
+      <div class="fee-cls">Class XII</div>
+      <div class="fee-name">Higher Secondary — Final Year</div>
+      <div class="fee-amount">₹1,000</div>
+      <div class="fee-period">per month</div>
+      <ul class="fee-list"><li>6 classes/week</li><li>Full notes &amp; materials</li><li>Weekly tests &amp; mock exams</li><li>Previous year paper practice</li><li>Pre-board intensive sessions</li></ul>
+      <button class="btn btn-full" style="background:rgba(255,255,255,.18);color:#fff;border:1.5px solid rgba(255,255,255,.38);border-radius:8px;padding:13px;font-size:.88rem;font-weight:600;cursor:pointer" onclick="goPage('enroll')">Enrol for Class XII</button>
+    </div>
+    <div class="fee-card reveal d3">
+      <div class="fee-cls">B.Com</div>
+      <div class="fee-name">Bachelor of Commerce</div>
+      <div class="fee-amount">₹1,200</div>
+      <div class="fee-period">per month</div>
+      <ul class="fee-list"><li>6 classes/week</li><li>University-level materials</li><li>Semester-wise coverage</li><li>Income Tax &amp; GST modules</li><li>1-on-1 mentoring sessions</li></ul>
+      <button class="btn btn-primary btn-full" onclick="goPage('enroll')">Enrol for B.Com</button>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:20px;font-size:.8rem;color:var(--muted)">📌 Registration: ₹200 one-time &nbsp;|&nbsp; Sibling discount: 10% &nbsp;|&nbsp; UPI / Cash accepted</p>
+</section>
+
+<!-- COURSES -->
+<section style="background:var(--cream)" id="courses">
+  <div class="reveal"><p class="sec-lbl">What We Offer</p><h2 class="sec-title">Courses &amp; Classes</h2><p class="sec-sub">Aligned to WB Board and Calcutta University syllabus.</p></div>
+  <div class="courses-grid">
+    <div class="c-card reveal d1"><div class="c-tag">Class XI</div><h3>Higher Secondary — Year 1</h3><p>Rock-solid foundation with WB Board focus from day one.</p><ul class="c-list"><li>Accountancy</li><li>Business Studies</li><li>Economics</li><li>Banking &amp; Insurance</li><li>Commerce Mathematics</li></ul></div>
+    <div class="c-card feat reveal d2"><div class="c-tag">⭐ Class XII — Most Popular</div><h3>Higher Secondary — Final Year</h3><p>Board-exam preparation with model tests and revision.</p><ul class="c-list"><li>Advanced Accountancy</li><li>Business Studies</li><li>Micro &amp; Macro Economics</li><li>Previous Year Papers</li><li>Exam Strategy</li></ul></div>
+    <div class="c-card reveal d3"><div class="c-tag">B.Com</div><h3>Bachelor of Commerce</h3><p>University-level guidance for Pass &amp; Honours students.</p><ul class="c-list"><li>Financial &amp; Cost Accounting</li><li>Business Law &amp; Taxation</li><li>Auditing &amp; Assurance</li><li>Income Tax &amp; GST</li><li>Management Accounting</li></ul></div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="reveal"><p class="sec-lbl">Find Us</p><h2 class="sec-title">Our Location</h2><p class="sec-sub">Conveniently located in Kasba, Kolkata — accessible by metro, bus, and auto.</p></div>
+  <div class="loc-grid">
+    <div class="loc-map reveal">
+      <div class="loc-map-inner">
+        <div class="ico">📍</div>
+        <p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:7px">Gopal Saha Commerce Classes</p>
+        <p>42/B, Bosepukur Road, Kasba<br/>Kolkata – 700 042, West Bengal</p>
+        <p style="margin-top:13px"><a href="https://maps.google.com/?q=Bosepukur+Road+Kasba+Kolkata" target="_blank">📌 Open in Google Maps →</a></p>
+      </div>
+    </div>
+    <div class="loc-details reveal d2">
+      <div class="loc-item"><div class="loc-icon">🏠</div><div><h4>Address</h4><p>42/B, Bosepukur Road, Kasba, Kolkata – 700 042</p></div></div>
+      <div class="loc-item"><div class="loc-icon">🚇</div><div><h4>Nearest Metro</h4><p>Kasba Station (500m) · East-West Corridor</p></div></div>
+      <div class="loc-item"><div class="loc-icon">🚌</div><div><h4>Bus Routes</h4><p>AC-41, S-12, DN-9 · Auto from EM Bypass</p></div></div>
+      <div class="loc-item"><div class="loc-icon">⏰</div><div><h4>Timings</h4><p>Morning 7–9 AM · Evening 5–7 PM · Sun 9–11 AM (Doubts)</p></div></div>
+      <div class="loc-item"><div class="loc-icon">📞</div><div><h4>Phone / WhatsApp</h4><p><a href="tel:+919830012345">+91 98300 12345</a></p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-sec" id="testimonials">
+  <div class="reveal"><p class="sec-lbl">Student Stories</p><h2 class="sec-title">What Students Say</h2><p class="sec-sub">Thousands have walked through these doors.</p></div>
+  <div class="testi-grid">
+    <div class="t-card reveal d1"><div class="t-stars">★★★★★</div><p>"Sir explained Partnership Accounts so clearly — I scored 92 in Accountancy. His patience is truly one of a kind."</p><div class="t-author"><div class="t-av">A</div><div><div class="t-name">Ananya Chatterjee</div><div class="t-detail">Class XII 2023 · WBCHSE Topper</div></div></div></div>
+    <div class="t-card reveal d2"><div class="t-stars">★★★★★</div><p>"After joining Sir's batch, Economics clicked instantly. He connects every concept to real Bengal economy examples."</p><div class="t-author"><div class="t-av">R</div><div><div class="t-name">Rahul Dey</div><div class="t-detail">B.Com Hons, Calcutta University '24</div></div></div></div>
+    <div class="t-card reveal d3"><div class="t-stars">★★★★★</div><p>"My daughter passed with distinction and developed a genuine love for commerce. Cannot thank Sir enough."</p><div class="t-author"><div class="t-av">S</div><div><div class="t-name">Sunita Mondal</div><div class="t-detail">Parent · Student Priya Mondal, XII</div></div></div></div>
+    <div class="t-card reveal d1"><div class="t-stars">★★★★★</div><p>"Sir's notes are gold — exam-focused and perfectly aligned with WB Board pattern. Scored 88 in Business Studies."</p><div class="t-author"><div class="t-av">D</div><div><div class="t-name">Debashis Pal</div><div class="t-detail">Class XII · Business Studies 88/100</div></div></div></div>
+    <div class="t-card reveal d2"><div class="t-stars">★★★★★</div><p>"After failing B.Com Part I, Sir's approach completely transformed my understanding. Cleared with second class next attempt!"</p><div class="t-author"><div class="t-av">M</div><div><div class="t-name">Moumita Ghosh</div><div class="t-detail">B.Com Pass 2022 · Calcutta University</div></div></div></div>
+    <div class="t-card reveal d3"><div class="t-stars">★★★★★</div><p>"Joined feeling completely lost. By Class XII I was helping classmates. His structured, caring style made all the difference."</p><div class="t-author"><div class="t-av">K</div><div><div class="t-name">Koushik Bose</div><div class="t-detail">Class XII 2024 · Star Mark in Accountancy</div></div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal"><p class="sec-lbl">Get In Touch</p><h2 class="sec-title">Contact Us</h2><p class="sec-sub">Have questions? Reach out directly or drop a message.</p></div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h3>Direct Contact</h3>
+      <div class="ci-item"><div class="ci-icon">📞</div><div><h4>Phone / WhatsApp</h4><p>+91 98300 12345</p></div></div>
+      <div class="ci-item"><div class="ci-icon">✉️</div><div><h4>Email</h4><p>gopalsahaclasses@gmail.com</p></div></div>
+      <div class="ci-item"><div class="ci-icon">📍</div><div><h4>Address</h4><p>42/B Bosepukur Rd, Kasba, Kolkata – 700 042</p></div></div>
+      <div class="ci-item"><div class="ci-icon">⏰</div><div><h4>Office Hours</h4><p>Mon–Sat: 8 AM – 8 PM</p></div></div>
+    </div>
+    <div class="contact-form-box reveal d2">
+      <h3>Send Enquiry</h3>
+      <div class="fg"><label>Full Name</label><input type="text" id="cName" placeholder="Your full name"/></div>
+      <div class="fg"><label>Phone</label><input type="tel" id="cPhone" placeholder="+91 XXXXX XXXXX"/></div>
+      <div class="fg"><label>Course</label><select id="cCourse"><option value="">Select…</option><option>Class XI Commerce</option><option>Class XII Commerce</option><option>B.Com (Pass)</option><option>B.Com (Honours)</option></select></div>
+      <div class="fg"><label>Message</label><textarea id="cMsg" placeholder="Any questions?"></textarea></div>
+      <button class="btn btn-primary btn-full" id="enquiryBtn" onclick="sendEnquiry()">Send Enquiry →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">Gopal <span>Saha</span> Commerce Classes</div>
+  <p>© 2025 · Kasba, Kolkata · WB Board Specialist</p>
+  <div class="footer-links">
+    <a onclick="goPage('home')">Home</a>
+    <a onclick="scrollSec('#fees')">Fees</a>
+    <a onclick="goPage('enroll')">Enrol</a>
+    <a onclick="goPage('student-login')">Student Login</a>
+    <a onclick="goPage('admin')">Admin</a>
+  </div>
+</footer>
+</div><!-- /page-home -->
+
+<!-- ═══════════════════════════════════
+     ENROLLMENT PAGE
+═══════════════════════════════════ -->
+<div id="page-enroll" class="page">
+<nav class="nav" style="position:relative">
+  <div class="nav-logo" onclick="goPage('home')">Gopal <span>Saha</span></div>
+  <div class="nav-right"><button class="btn btn-outline btn-sm" onclick="goPage('home')">← Home</button></div>
+</nav>
+<div class="mob-nav" style="position:relative"><div class="nav-logo" onclick="goPage('home')">Gopal <span>Saha</span></div><button class="btn btn-ghost btn-sm" onclick="goPage('home')">← Back</button></div>
+<div class="enroll-wrap">
+  <div class="enroll-hd"><p class="sec-lbl">Online Admission</p><h1>Enrol Now</h1><p>Secure your seat in just a few steps. Limited spots per batch.</p></div>
+  <div class="step-bar">
+    <div class="sb-step active" id="sb1"><div class="sb-dot">1</div><div class="sb-lbl">Details</div></div>
+    <div class="sb-step" id="sb2"><div class="sb-dot">2</div><div class="sb-lbl">Course</div></div>
+    <div class="sb-step" id="sb3"><div class="sb-dot">3</div><div class="sb-lbl">Payment</div></div>
+    <div class="sb-step" id="sb4"><div class="sb-dot">4</div><div class="sb-lbl">Confirm</div></div>
+  </div>
+  <div class="enroll-card">
+    <!-- Step 1 -->
+    <div class="fstep active" id="fs1">
+      <h2>Personal Details</h2><p class="fdesc">Fill in the student's information accurately.</p>
+      <div class="form-row">
+        <div class="fg"><label>Student Full Name *</label><input type="text" id="f_name" placeholder="e.g. Ananya Chatterjee"/></div>
+        <div class="fg"><label>Date of Birth *</label><input type="date" id="f_dob"/></div>
+      </div>
+      <div class="form-row">
+        <div class="fg"><label>Phone Number *</label><input type="tel" id="f_phone" placeholder="+91 XXXXX XXXXX"/></div>
+        <div class="fg"><label>Parent / Guardian *</label><input type="text" id="f_parent" placeholder="Parent full name"/></div>
+      </div>
+      <div class="fg"><label>Email</label><input type="email" id="f_email" placeholder="student@email.com"/></div>
+      <div class="fg"><label>Home Address *</label><input type="text" id="f_address" placeholder="Full address, Kolkata"/></div>
+      <div class="fnav"><div></div><button class="btn btn-primary" onclick="nextStep(2)">Next: Course →</button></div>
+    </div>
+    <!-- Step 2 -->
+    <div class="fstep" id="fs2">
+      <h2>Course Selection</h2><p class="fdesc">Choose your course and preferred batch timing.</p>
+      <div class="fg"><label>Course *</label>
+        <select id="f_course" onchange="updateFeePreview()">
+          <option value="">Select course…</option>
+          <option value="Class XI Commerce — ₹800/month">Class XI Commerce — ₹800/month</option>
+          <option value="Class XII Commerce — ₹1,000/month">Class XII Commerce — ₹1,000/month</option>
+          <option value="B.Com Pass — ₹1,200/month">B.Com Pass — ₹1,200/month</option>
+          <option value="B.Com Honours — ₹1,200/month">B.Com Honours — ₹1,200/month</option>
+        </select>
+      </div>
+      <div class="fg"><label>Batch Timing *</label>
+        <select id="f_batch">
+          <option value="">Select timing…</option>
+          <option>Morning Batch (7:00 AM – 9:00 AM)</option>
+          <option>Evening Batch (5:00 PM – 7:00 PM)</option>
+        </select>
+      </div>
+      <div class="fg"><label>Previous School / College</label><input type="text" id="f_school" placeholder="e.g. South Point High School"/></div>
+      <div class="fg"><label>How did you hear about us?</label>
+        <select id="f_source"><option value="">Select…</option><option>Friend / Family</option><option>Social Media</option><option>Google Search</option><option>Existing Student</option></select>
+      </div>
+      <div id="fee-preview" style="display:none;background:rgba(200,146,42,.07);border:1px solid rgba(200,146,42,.22);border-radius:8px;padding:12px 15px;margin-bottom:4px;font-size:.88rem;color:var(--muted)"></div>
+      <div class="fnav">
+        <button class="btn btn-outline" onclick="nextStep(1)">← Back</button>
+        <button class="btn btn-primary" onclick="nextStep(3)">Next: Payment →</button>
+      </div>
+    </div>
+    <!-- Step 3 -->
+    <div class="fstep" id="fs3">
+      <h2>Payment</h2><p class="fdesc">Registration ₹200 + first month fee payable now.</p>
+      <div class="total-row"><span>Total Payable</span><strong id="f_total">₹—</strong></div>
+      <div class="pay-opts">
+        <div class="pay-opt" id="pay-upi" onclick="selPay('upi')"><div class="pay-opt-icon">📱</div><div class="pay-opt-text"><h4>UPI / QR</h4><p>Any UPI app</p></div></div>
+        <div class="pay-opt" id="pay-cash" onclick="selPay('cash')"><div class="pay-opt-icon">💵</div><div class="pay-opt-text"><h4>Cash at Centre</h4><p>On first day</p></div></div>
+      </div>
+      <div class="upi-box" id="upiBox">
+        <p style="font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px">Scan &amp; Pay</p>
+        <div class="qr-wrap">
+          <svg class="qr-svg" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+            <rect width="160" height="160" fill="white"/>
+            <rect x="10" y="10" width="50" height="50" fill="none" stroke="#1a1208" stroke-width="4"/>
+            <rect x="18" y="18" width="34" height="34" fill="none" stroke="#1a1208" stroke-width="4"/>
+            <rect x="26" y="26" width="18" height="18" fill="#1a1208"/>
+            <rect x="100" y="10" width="50" height="50" fill="none" stroke="#1a1208" stroke-width="4"/>
+            <rect x="108" y="18" width="34" height="34" fill="none" stroke="#1a1208" stroke-width="4"/>
+            <rect x="116" y="26" width="18" height="18" fill="#1a1208"/>
+            <rect x="10" y="100" width="50" height="50" fill="none" stroke="#1a1208" stroke-width="4"/>
+            <rect x="18" y="108" width="34" height="34" fill="none" stroke="#1a1208" stroke-width="4"/>
+            <rect x="26" y="116" width="18" height="18" fill="#1a1208"/>
+            <g fill="#1a1208">
+              <rect x="70" y="10" width="6" height="6"/><rect x="82" y="10" width="6" height="6"/>
+              <rect x="70" y="22" width="6" height="6"/><rect x="88" y="22" width="6" height="6"/>
+              <rect x="76" y="34" width="6" height="6"/><rect x="88" y="34" width="6" height="6"/>
+              <rect x="70" y="46" width="6" height="6"/><rect x="82" y="46" width="6" height="6"/>
+              <rect x="70" y="70" width="6" height="6"/><rect x="82" y="70" width="6" height="6"/>
+              <rect x="10" y="70" width="6" height="6"/><rect x="22" y="70" width="6" height="6"/>
+              <rect x="34" y="70" width="6" height="6"/><rect x="46" y="70" width="6" height="6"/>
+              <rect x="100" y="70" width="6" height="6"/><rect x="112" y="70" width="6" height="6"/>
+              <rect x="124" y="70" width="6" height="6"/><rect x="136" y="70" width="6" height="6"/>
+              <rect x="76" y="82" width="6" height="6"/><rect x="100" y="82" width="6" height="6"/>
+              <rect x="22" y="94" width="6" height="6"/><rect x="70" y="94" width="6" height="6"/>
+              <rect x="88" y="94" width="6" height="6"/><rect x="112" y="94" width="6" height="6"/>
+              <rect x="70" y="106" width="6" height="6"/><rect x="82" y="106" width="6" height="6"/>
+              <rect x="100" y="106" width="6" height="6"/><rect x="124" y="106" width="6" height="6"/>
+              <rect x="76" y="118" width="6" height="6"/><rect x="94" y="118" width="6" height="6"/>
+              <rect x="112" y="118" width="6" height="6"/><rect x="136" y="118" width="6" height="6"/>
+              <rect x="76" y="130" width="6" height="6"/><rect x="88" y="130" width="6" height="6"/>
+              <rect x="106" y="130" width="6" height="6"/><rect x="124" y="130" width="6" height="6"/>
+              <rect x="70" y="142" width="6" height="6"/><rect x="100" y="142" width="6" height="6"/>
+              <rect x="118" y="142" width="6" height="6"/><rect x="136" y="142" width="6" height="6"/>
+            </g>
+            <rect x="66" y="66" width="28" height="28" rx="4" fill="white" stroke="rgba(200,146,42,.3)" stroke-width="1"/>
+            <text x="80" y="84" font-size="14" text-anchor="middle" fill="#8b3a1c" font-weight="bold" font-family="serif">₹</text>
+          </svg>
+        </div>
+        <div class="upi-id">UPI ID: <strong>gopalsaha.classes@upi</strong></div>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:13px">After payment, upload your screenshot below</p>
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('ssFile').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondrop="event.preventDefault();this.classList.remove('drag');handleFile(event.dataTransfer.files[0])">
+          <input type="file" id="ssFile" accept="image/*" onchange="handleFile(this.files[0])"/>
+          <div style="font-size:2rem;margin-bottom:7px">📷</div>
+          <p>Click to upload payment screenshot<br/><span style="font-size:.74rem;opacity:.6">JPG, PNG up to 5MB</span></p>
+        </div>
+        <div class="upload-preview" id="uploadPreview">
+          <img id="previewImg" src="" alt="Screenshot"/>
+          <p style="font-size:.76rem;color:var(--sage);font-weight:600;margin-top:5px">✓ Screenshot uploaded</p>
+        </div>
+      </div>
+      <div class="cash-note" id="cashNote">💵 <strong>Cash Payment</strong> selected. Bring exact amount (₹200 + first month fee) on your first day. Seat reserved for 3 days.</div>
+      <div class="fnav">
+        <button class="btn btn-outline" onclick="nextStep(2)">← Back</button>
+        <button class="btn btn-primary" onclick="submitForm()">Submit Enrolment →</button>
+      </div>
+    </div>
+    <!-- Step 4: Success -->
+    <div class="fstep" id="fs4">
+      <div class="success-wrap">
+        <div class="success-ico">🎉</div>
+        <h2>Enrolment Submitted!</h2>
+        <p>Your application has been received. The team will contact you within 24 hours to confirm your seat.</p>
+        <div class="ref-pill" id="refDisplay">REF #GS-000000</div>
+        <p style="font-size:.8rem;color:var(--muted);margin-bottom:22px">Save this reference ID. Use it to check your status in Student Login.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="goPage('home')">← Back to Home</button>
+          <button class="btn btn-outline" onclick="goPage('student-login')">Check Status →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /page-enroll -->
+
+<!-- ═══════════════════════════════════
+     STUDENT LOGIN PAGE
+═══════════════════════════════════ -->
+<div id="page-student-login" class="page">
+<div class="slp">
+  <!-- LEFT: branding panel (hidden on mobile) -->
+  <div class="slp-left">
+    <div class="slp-logo" onclick="goPage('home')">Gopal <span>Saha</span> Classes</div>
+    <h1>Track Your<br/><em>Admission</em><br/>Journey</h1>
+    <p>Log in to check your enrolment status, payment confirmation, and batch details in real time.</p>
+    <div class="slp-feat"><div class="slp-feat-ico">📋</div><p>Check admission &amp; payment status instantly</p></div>
+    <div class="slp-feat"><div class="slp-feat-ico">🏫</div><p>View your batch timing and course details</p></div>
+    <div class="slp-feat"><div class="slp-feat-ico">🔔</div><p>Get notified when your seat is confirmed</p></div>
+    <div class="slp-nums">
+      <div class="slp-num"><span>40+</span><p>Years</p></div>
+      <div class="slp-num"><span>2500+</span><p>Students</p></div>
+      <div class="slp-num"><span>98%</span><p>Pass Rate</p></div>
+    </div>
+  </div>
+  <!-- RIGHT: login form -->
+  <div class="slp-right">
+    <div class="slp-right-inner">
+      <button class="slp-back-btn" onclick="goPage('home')">← Back to Website</button>
+      <div class="slp-tabs">
+        <button class="slp-tab active" id="tab-ref" onclick="switchTab('ref')">By Reference ID</button>
+        <button class="slp-tab" id="tab-phone" onclick="switchTab('phone')">By Phone Number</button>
+      </div>
+
+      <!-- Login by Ref -->
+      <div class="slp-panel active" id="panel-ref">
+        <div class="slp-title">Welcome Back</div>
+        <div class="slp-sub">Enter your Reference ID and registered phone to check status.</div>
+        <div class="slp-err" id="err-ref">No record found. Please double-check your Reference ID and phone number.</div>
+        <div class="fg"><label>Reference ID *</label><input type="text" id="in-ref" placeholder="e.g. GS-101010" oninput="this.value=this.value.toUpperCase()"/></div>
+        <div class="fg"><label>Registered Phone *</label><input type="tel" id="in-ref-phone" placeholder="+91 98712 34567"/></div>
+        <button class="btn btn-primary btn-full" onclick="loginByRef()">Check My Status →</button>
+        <div class="slp-switch">or <button onclick="switchTab('phone')">search by phone number instead</button></div>
+        <div class="slp-hint">💡 Your Reference ID was shown after enrolment (e.g. <strong>GS-101010</strong>). Check your phone for the confirmation message.</div>
+      </div>
+
+      <!-- Login by Phone -->
+      <div class="slp-panel" id="panel-phone">
+        <div class="slp-title">Find My Enrolment</div>
+        <div class="slp-sub">Enter your phone number and name to find your record.</div>
+        <div class="slp-err" id="err-phone">No matching record found. Please check your details or contact us at +91 98300 12345.</div>
+        <div class="fg"><label>Phone Number *</label><input type="tel" id="in-phone" placeholder="+91 98712 34567"/></div>
+        <div class="fg"><label>Student Full Name *</label><input type="text" id="in-pname" placeholder="As entered during enrolment"/></div>
+        <button class="btn btn-primary btn-full" onclick="loginByPhone()">Find My Record →</button>
+        <div class="slp-switch">or <button onclick="switchTab('ref')">use my Reference ID instead</button></div>
+        <div class="slp-hint">💡 Use the <strong>exact phone number</strong> and name as entered during enrolment.</div>
+      </div>
+
+      <p style="font-size:.76rem;color:var(--muted);text-align:center;margin-top:20px">Not enrolled yet? <span style="color:var(--rust);font-weight:600;cursor:pointer" onclick="goPage('enroll')">Enrol Now →</span></p>
+    </div>
+  </div>
+</div>
+</div><!-- /page-student-login -->
+
+<!-- ═══════════════════════════════════
+     STUDENT DASHBOARD
+═══════════════════════════════════ -->
+<div id="page-student-dash" class="page">
+<nav class="nav" style="position:relative;background:rgba(253,246,227,.98)">
+  <div class="nav-logo" onclick="goPage('home')">Gopal <span>Saha</span></div>
+  <div class="nav-right">
+    <button class="btn btn-ghost btn-sm" onclick="goPage('home')">← Home</button>
+    <button class="btn btn-ghost btn-sm btn-danger" onclick="studentLogout()">Logout</button>
+  </div>
+</nav>
+<div class="mob-nav" style="position:relative;background:rgba(253,246,227,.98)">
+  <div class="nav-logo" onclick="goPage('home')">Gopal <span>Saha</span></div>
+  <button class="btn btn-ghost btn-sm" onclick="studentLogout()" style="font-size:.76rem">Logout</button>
+</div>
+<div class="dash-page">
+<div class="dash-inner">
+
+  <div class="dash-topbar">
+    <div>
+      <div class="dash-welcome">Hello, <span id="dName">Student</span> 👋</div>
+      <div class="dash-welcome-sub">Your enrolment status at Gopal Saha Commerce Classes</div>
+    </div>
+  </div>
+
+  <!-- Status Hero -->
+  <div class="dash-hero">
+    <div class="dash-hero-top">
+      <div>
+        <div class="dash-ref" id="dRef">REF: —</div>
+        <div class="dash-name" id="dNameBig">—</div>
+        <div class="dash-ctag" id="dCourse">—</div>
+      </div>
+      <div class="status-pill sp-pending" id="dPill">
+        <span class="pill-dot"></span><span id="dStatus">Pending</span>
+      </div>
+    </div>
+    <div class="dash-stats">
+      <div class="ds-item"><div class="ds-lbl">Batch</div><div class="ds-val" id="dBatch">—</div></div>
+      <div class="ds-item"><div class="ds-lbl">Payment</div><div class="ds-val" id="dPay">—</div></div>
+      <div class="ds-item"><div class="ds-lbl">Applied</div><div class="ds-val" id="dDate">—</div></div>
+      <div class="ds-item"><div class="ds-lbl">Monthly Fee</div><div class="ds-val" id="dFee">—</div></div>
+    </div>
+  </div>
+
+  <!-- Notice -->
+  <div class="dash-notice n-warn" id="dNotice">
+    <div class="n-ico">⏳</div>
+    <div class="n-text"><h4>Under Review</h4><p>Your application is being reviewed. You'll be contacted within 24 hours.</p></div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="dash-timeline">
+    <h3>📍 Enrolment Journey</h3>
+    <div class="tl-track" id="dTimeline"></div>
+  </div>
+
+  <!-- Info Cards -->
+  <div class="dash-cards">
+    <div class="info-card">
+      <h4>Personal Details</h4>
+      <div class="info-row"><span class="ir-key">Name</span><span class="ir-val" id="di-name">—</span></div>
+      <div class="info-row"><span class="ir-key">Phone</span><span class="ir-val" id="di-phone">—</span></div>
+      <div class="info-row"><span class="ir-key">Parent</span><span class="ir-val" id="di-parent">—</span></div>
+      <div class="info-row"><span class="ir-key">Address</span><span class="ir-val" id="di-address">—</span></div>
+    </div>
+    <div class="info-card">
+      <h4>Course Details</h4>
+      <div class="info-row"><span class="ir-key">Course</span><span class="ir-val" id="di-course">—</span></div>
+      <div class="info-row"><span class="ir-key">Batch</span><span class="ir-val" id="di-batch">—</span></div>
+      <div class="info-row"><span class="ir-key">Monthly Fee</span><span class="ir-val" id="di-fee">—</span></div>
+      <div class="info-row"><span class="ir-key">Payment</span><span class="ir-val" id="di-pay">—</span></div>
+    </div>
+  </div>
+
+  <!-- Contact notice -->
+  <div class="dash-notice n-info">
+    <div class="n-ico">📞</div>
+    <div class="n-text"><h4>Need Help?</h4><p>Call / WhatsApp: <strong>+91 98300 12345</strong> (Mon–Sat 8 AM–8 PM) · Email: <strong>gopalsahaclasses@gmail.com</strong></p></div>
+  </div>
+
+</div>
+</div>
+</div><!-- /page-student-dash -->
+
+<!-- ═══════════════════════════════════
+     ADMIN PAGE
+═══════════════════════════════════ -->
+<div id="page-admin" class="page">
+<nav class="nav" style="position:relative">
+  <div class="nav-logo" onclick="goPage('home')">Gopal <span>Saha</span></div>
+  <div class="nav-right"><button class="btn btn-outline btn-sm" onclick="goPage('home')">← Site</button></div>
+</nav>
+<div class="mob-nav" style="position:relative"><div class="nav-logo">Gopal <span>Saha</span></div><button class="btn btn-ghost btn-sm" onclick="goPage('home')">← Site</button></div>
+
+<div class="admin-bg">
+  <!-- Login -->
+  <div id="adminLogin" class="admin-login-box">
+    <h2>Admin Login</h2>
+    <p>Owner access only.</p>
+    <div class="fg"><label>Username</label><input type="text" id="aUser" placeholder="admin"/></div>
+    <div class="fg"><label>Password</label><input type="password" id="aPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()"/></div>
+    <div id="aErr" style="display:none;color:var(--danger);font-size:.8rem;margin-bottom:11px">Invalid credentials.</div>
+    <button class="btn btn-primary btn-full" onclick="adminLogin()">Login →</button>
+    <p style="font-size:.72rem;color:var(--muted);margin-top:12px;text-align:center">Default: admin / gopal2025</p>
+  </div>
+
+  <!-- Panel -->
+  <div id="adminPanel" style="display:none">
+    <div class="admin-panel">
+      <div class="admin-topbar">
+        <div><h1>Dashboard</h1><p>Gopal Saha Commerce Classes</p></div>
+        <button class="btn btn-ghost btn-sm btn-danger" onclick="adminLogout()">Logout ↩</button>
+      </div>
+      <div class="admin-stats">
+        <div class="asc"><div class="asc-num" id="sTot">0</div><div class="asc-lbl">Total</div></div>
+        <div class="asc"><div class="asc-num" id="sPend">0</div><div class="asc-lbl">Pending</div></div>
+        <div class="asc"><div class="asc-num" id="sConf">0</div><div class="asc-lbl">Confirmed</div></div>
+        <div class="asc"><div class="asc-num" id="sRev">₹0</div><div class="asc-lbl">Est. Revenue</div></div>
+      </div>
+      <div class="admin-table-wrap">
+        <div class="atw-hd">
+          <h3>All Enrollments</h3>
+          <div class="filter-row">
+            <button class="fbtn active" onclick="filterA('all',this)">All</button>
+            <button class="fbtn" onclick="filterA('Pending',this)">Pending</button>
+            <button class="fbtn" onclick="filterA('Confirmed',this)">Confirmed</button>
+            <button class="fbtn" onclick="filterA('Rejected',this)">Rejected</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table id="aTable" style="display:none">
+            <thead><tr><th>Ref</th><th>Student</th><th>Course</th><th>Batch</th><th>Payment</th><th>Screenshot</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="aTbody"></tbody>
+          </table>
+          <div id="aEmpty" style="text-align:center;padding:44px;color:var(--muted);font-size:.9rem">No enrollments yet.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /page-admin -->
+
+<!-- MODAL -->
+<div class="modal-ov" id="ssModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Payment Screenshot</h3>
+    <img id="mImg" src="" alt=""/>
+    <div class="modal-info" id="mInfo"></div>
+  </div>
+</div>
+
+<!-- CHATBOT -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Chat with us">
+  💬<div class="chat-badge">1</div>
+</button>
+<div class="chat-win" id="chatWin">
+  <div class="chat-hd">
+    <div class="chat-hd-info">
+      <div class="chat-av" style="position:relative">🎓<div class="chat-online-dot"></div></div>
+      <div><h4>Gopal Saha Classes</h4><p>Typically replies instantly</p></div>
+    </div>
+    <button class="chat-x" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs"></div>
+  <div class="qreplies" id="qReplies"></div>
+  <div class="chat-input-row">
+    <input class="chat-inp" id="chatIn" placeholder="Type a message…" onkeydown="if(event.key==='Enter')sendMsg()"/>
+    <button class="chat-send" onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// SHARED STORAGE  —  window.storage(shared=true) syncs across
+// every device that opens this page.
+// ══════════════════════════════════════════════════════════════
+const STORE_KEY = 'gopal_enrollments_v2';
+
+async function getAll() {
+  try { const r = await window.storage.get(STORE_KEY, true); return r ? JSON.parse(r.value) : []; }
+  catch(e) { return []; }
+}
+async function saveAll(arr) {
+  try { await window.storage.set(STORE_KEY, JSON.stringify(arr), true); }
+  catch(e) { console.error('Storage error', e); }
+}
+
+// ── Spinner overlay ──────────────────────────────────────────
+function showLoader(msg) {
+  let ov = document.getElementById('gLoader');
+  if (!ov) {
+    ov = document.createElement('div'); ov.id = 'gLoader';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(253,246,227,.92);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;font-family:"DM Sans",sans-serif;';
+    ov.innerHTML = '<div style="width:36px;height:36px;border:3px solid rgba(200,146,42,.25);border-top-color:#8b3a1c;border-radius:50%;animation:_gsp .7s linear infinite"></div><p id="gLMsg" style="font-size:.9rem;color:#7a6a52;font-weight:500"></p>';
+    const st = document.createElement('style'); st.textContent = '@keyframes _gsp{to{transform:rotate(360deg)}}';
+    document.head.appendChild(st); document.body.appendChild(ov);
+  }
+  ov.style.display = 'flex';
+  document.getElementById('gLMsg').textContent = msg || 'Loading…';
+}
+function hideLoader() { const ov = document.getElementById('gLoader'); if(ov) ov.style.display='none'; }
+
+// ══════════════════════════════════════════════════════════════
+// PAGE ROUTING
+// ══════════════════════════════════════════════════════════════
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo(0,0);
+  if (id === 'admin') {
+    document.getElementById('adminLogin').style.display = 'block';
+    document.getElementById('adminPanel').style.display = 'none';
+  }
+}
+function scrollSec(sel) {
+  goPage('home');
+  setTimeout(() => { const el = document.querySelector(sel); if(el) el.scrollIntoView({behavior:'smooth'}); }, 120);
+}
+
+// ══════════════════════════════════════════════════════════════
+// MOBILE MENU
+// ══════════════════════════════════════════════════════════════
+function toggleMobMenu() {
+  document.getElementById('hamBtn').classList.toggle('open');
+  document.getElementById('mobDrawer').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobDrawer').classList.contains('open') ? 'hidden' : '';
+}
+function closeMobMenu() {
+  document.getElementById('hamBtn').classList.remove('open');
+  document.getElementById('mobDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ══════════════════════════════════════════════════════════════
+// ENROLLMENT FORM
+// ══════════════════════════════════════════════════════════════
+let curStep = 1, selPay_ = '', ss = '';
+const feeMap = {
+  'Class XI Commerce — ₹800/month': 800,
+  'Class XII Commerce — ₹1,000/month': 1000,
+  'B.Com Pass — ₹1,200/month': 1200,
+  'B.Com Honours — ₹1,200/month': 1200
+};
+
+function nextStep(n) {
+  if (n > curStep && !validateStep(curStep)) return;
+  curStep = n;
+  document.querySelectorAll('.fstep').forEach((s,i) => s.classList.toggle('active', i === n-1));
+  for (let i=1;i<=4;i++) {
+    const el = document.getElementById('sb'+i);
+    if(el) el.className = 'sb-step' + (i===n?' active': i<n?' done':'');
+  }
+  if (n===3) updateTotal();
+  window.scrollTo(0,0);
+}
+
+function validateStep(n) {
+  if (n===1) {
+    const vals = ['f_name','f_phone','f_parent','f_address'].map(id => document.getElementById(id).value.trim());
+    if (vals.some(v => !v)) { alert('Please fill all required fields (*)'); return false; }
+  }
+  if (n===2) {
+    if (!document.getElementById('f_course').value) { alert('Please select a course.'); return false; }
+    if (!document.getElementById('f_batch').value)  { alert('Please select a batch timing.'); return false; }
+  }
+  if (n===3) {
+    if (!selPay_) { alert('Please select a payment method.'); return false; }
+    if (selPay_==='upi' && !ss) { alert('Please upload your UPI payment screenshot.'); return false; }
+  }
+  return true;
+}
+
+function updateFeePreview() {
+  const c = document.getElementById('f_course').value;
+  const el = document.getElementById('fee-preview');
+  if(c) { el.style.display='block'; el.innerHTML=`📚 <strong>${c}</strong> &nbsp;·&nbsp; Monthly: <strong>₹${feeMap[c]||0}</strong> &nbsp;·&nbsp; Registration: <strong>₹200</strong>`; }
+  else el.style.display='none';
+}
+
+function updateTotal() {
+  const m = feeMap[document.getElementById('f_course').value] || 0;
+  document.getElementById('f_total').textContent = m ? '₹'+(m+200).toLocaleString('en-IN') : '₹—';
+}
+
+function selPay(t) {
+  selPay_ = t;
+  document.querySelectorAll('.pay-opt').forEach(o => o.classList.remove('sel'));
+  document.getElementById('pay-'+t).classList.add('sel');
+  document.getElementById('upiBox').classList.toggle('show', t==='upi');
+  document.getElementById('cashNote').style.display = t==='cash' ? 'block' : 'none';
+}
+
+function handleFile(f) {
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    ss = ev.target.result;
+    document.getElementById('previewImg').src = ss;
+    document.getElementById('uploadPreview').style.display = 'block';
+    document.getElementById('uploadArea').style.display = 'none';
+  };
+  r.readAsDataURL(f);
+}
+
+async function submitForm() {
+  if (!validateStep(3)) return;
+  const ref = 'GS-' + Date.now().toString().slice(-6);
+  const entry = {
+    ref,
+    name:    document.getElementById('f_name').value.trim(),
+    dob:     document.getElementById('f_dob').value,
+    phone:   normalizePhone(document.getElementById('f_phone').value),
+    parent:  document.getElementById('f_parent').value.trim(),
+    email:   document.getElementById('f_email').value.trim(),
+    address: document.getElementById('f_address').value.trim(),
+    course:  document.getElementById('f_course').value,
+    batch:   document.getElementById('f_batch').value,
+    school:  document.getElementById('f_school').value.trim(),
+    source:  document.getElementById('f_source').value,
+    payment: selPay_==='upi' ? 'UPI' : 'Cash',
+    screenshot: ss || '',
+    date:    new Date().toLocaleDateString('en-IN'),
+    status:  'Pending'
+  };
+  showLoader('Submitting your enrolment…');
+  const all = await getAll();
+  all.unshift(entry);
+  await saveAll(all);
+  hideLoader();
+  document.getElementById('refDisplay').textContent = 'REF #' + ref;
+  nextStep(4);
+}
+
+// ══════════════════════════════════════════════════════════════
+// STUDENT LOGIN
+// ══════════════════════════════════════════════════════════════
+function normalize(s)      { return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+function normalizePhone(s) { return (s||'').replace(/[\s\-\(\)\+]/g,''); }
+function showErr(id, msg)  { const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
+
+function switchTab(t) {
+  document.querySelectorAll('.slp-tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.slp-panel').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.getElementById('panel-'+t).classList.add('active');
+  document.getElementById('err-ref').style.display = 'none';
+  document.getElementById('err-phone').style.display = 'none';
+}
+
+async function loginByRef() {
+  const ref   = (document.getElementById('in-ref').value||'').trim().toUpperCase();
+  const phone = normalizePhone(document.getElementById('in-ref-phone').value);
+  document.getElementById('err-ref').style.display = 'none';
+  if (!ref||!phone) { showErr('err-ref','Please fill in both fields.'); return; }
+  showLoader('Looking up your record…');
+  const all = await getAll();
+  hideLoader();
+  const found = all.find(e =>
+    (e.ref||'').trim().toUpperCase() === ref &&
+    normalizePhone(e.phone) === phone
+  );
+  if (!found) { showErr('err-ref','No record found for "'+ref+'" with that phone. Please double-check.'); return; }
+  openDash(found);
+}
+
+async function loginByPhone() {
+  const phone = normalizePhone(document.getElementById('in-phone').value);
+  const name  = normalize(document.getElementById('in-pname').value);
+  document.getElementById('err-phone').style.display = 'none';
+  if (!phone||!name) { showErr('err-phone','Please fill in both fields.'); return; }
+  showLoader('Searching your record…');
+  const all = await getAll();
+  hideLoader();
+  const fw = name.split(' ')[0];
+  const found = all.find(e => normalizePhone(e.phone)===phone && normalize(e.name).includes(fw));
+  if (!found) { showErr('err-phone','No record found. Check your phone & name, or use your Reference ID.'); return; }
+  openDash(found);
+}
+
+function openDash(e) { fillDash(e); goPage('student-dash'); }
+
+function studentLogout() {
+  ['in-ref','in-ref-phone','in-phone','in-pname'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('err-ref').style.display = 'none';
+  document.getElementById('err-phone').style.display = 'none';
+  goPage('student-login');
+}
+
+function fillDash(e) {
+  const monthly = feeMap[e.course] || 0;
+  document.getElementById('dName').textContent    = e.name.split(' ')[0];
+  document.getElementById('dRef').textContent     = 'REF: #' + e.ref;
+  document.getElementById('dNameBig').textContent = e.name;
+  document.getElementById('dCourse').textContent  = (e.course||'').split('—')[0].trim();
+  const pill = document.getElementById('dPill');
+  pill.className = 'status-pill ' + ({Pending:'sp-pending',Confirmed:'sp-confirmed',Rejected:'sp-rejected'}[e.status]||'sp-pending');
+  document.getElementById('dStatus').textContent = e.status;
+  document.getElementById('dBatch').textContent  = (e.batch||'—').split('(')[0].trim();
+  document.getElementById('dPay').textContent    = e.payment||'—';
+  document.getElementById('dDate').textContent   = e.date||'—';
+  document.getElementById('dFee').textContent    = monthly ? '₹'+monthly+'/mo' : '—';
+  const notice = document.getElementById('dNotice');
+  if (e.status==='Confirmed') {
+    notice.className='dash-notice n-ok';
+    notice.innerHTML='<div class="n-ico">✅</div><div class="n-text"><h4>Seat Confirmed!</h4><p>Congratulations! Your enrolment is confirmed. Please report on your first day of class. Welcome aboard! 🎉</p></div>';
+  } else if (e.status==='Rejected') {
+    notice.className='dash-notice n-err';
+    notice.innerHTML='<div class="n-ico">❌</div><div class="n-text"><h4>Application Not Approved</h4><p>Contact us at <strong>+91 98300 12345</strong> to understand next steps or reapply.</p></div>';
+  } else {
+    notice.className='dash-notice n-warn';
+    notice.innerHTML='<div class="n-ico">⏳</div><div class="n-text"><h4>Under Review</h4><p>Your application is being reviewed. We will contact you within 24 hours on your registered phone number.</p></div>';
+  }
+  const steps = [
+    {label:'Form Submitted',       desc:'Application received successfully',                                               date:e.date,                         st:'done'},
+    {label:'Payment Verification', desc:e.payment==='UPI'?'UPI screenshot under review':'Cash to be collected at centre', date:e.status!=='Pending'?e.date:null, st:e.status==='Pending'?'cur':'done'},
+    {label:e.status==='Rejected'?'Application Rejected':'Seat Confirmed',
+                                   desc:e.status==='Confirmed'?'Your seat is reserved!':e.status==='Rejected'?'Contact us for next steps':'Awaiting admin confirmation…',
+                                                                                                                           date:e.status!=='Pending'?e.date:null, st:e.status==='Confirmed'?'done':e.status==='Rejected'?'cur':'wait'},
+    {label:'Classes Begin',        desc:'Attend your first class at the coaching centre',                                  date:null,                             st:e.status==='Confirmed'?'cur':'wait'}
+  ];
+  document.getElementById('dTimeline').innerHTML = steps.map((s,i) =>
+    `<div class="tl-item" style="animation:staggerIn .4s ${i*.1}s ease both">
+      <div class="tl-dot ${s.st}">${s.st==='done'?'✓':s.st==='cur'?'●':'○'}</div>
+      <div class="tl-title">${s.label}</div>
+      <div class="tl-desc">${s.desc}</div>
+      ${s.date?`<div class="tl-date">${s.date}</div>`:''}
+    </div>`).join('');
+  document.getElementById('di-name').textContent    = e.name;
+  document.getElementById('di-phone').textContent   = e.phone;
+  document.getElementById('di-parent').textContent  = e.parent||'—';
+  document.getElementById('di-address').textContent = e.address||'—';
+  document.getElementById('di-course').textContent  = (e.course||'').split('—')[0].trim();
+  document.getElementById('di-batch').textContent   = e.batch||'—';
+  document.getElementById('di-fee').textContent     = monthly?'₹'+monthly+'/month':'—';
+  document.getElementById('di-pay').textContent     = e.payment||'—';
+}
+
+// ══════════════════════════════════════════════════════════════
+// ADMIN
+// ══════════════════════════════════════════════════════════════
+function adminLogin() {
+  const u=document.getElementById('aUser').value, p=document.getElementById('aPass').value;
+  if (u==='admin' && p==='gopal2025') {
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    loadAdmin();
+  } else { document.getElementById('aErr').style.display='block'; }
+}
+function adminLogout() {
+  document.getElementById('adminLogin').style.display = 'block';
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('aUser').value = '';
+  document.getElementById('aPass').value = '';
+}
+
+let _adminFilter = 'all';
+function filterA(f, btn) {
+  _adminFilter = f;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadAdmin(f);
+}
+
+async function loadAdmin(filter) {
+  filter = filter || _adminFilter || 'all';
+  showLoader('Fetching enrollments…');
+  const all = await getAll();
+  hideLoader();
+  const filtered  = filter==='all' ? all : all.filter(e => e.status===filter);
+  const pend = all.filter(e => e.status==='Pending').length;
+  const conf = all.filter(e => e.status==='Confirmed').length;
+  const rev  = all.filter(e => e.status==='Confirmed').reduce((s,e) => s+(feeMap[e.course]||0), 0);
+  document.getElementById('sTot').textContent  = all.length;
+  document.getElementById('sPend').textContent = pend;
+  document.getElementById('sConf').textContent = conf;
+  document.getElementById('sRev').textContent  = '₹'+rev.toLocaleString('en-IN');
+  const tbody = document.getElementById('aTbody');
+  tbody.innerHTML = '';
+  document.getElementById('aEmpty').style.display = filtered.length ? 'none' : 'block';
+  document.getElementById('aTable').style.display  = filtered.length ? 'table' : 'none';
+  filtered.forEach(e => {
+    const ri = all.indexOf(e);
+    const sc = {Pending:'sb-pend',Confirmed:'sb-conf',Rejected:'sb-rej'}[e.status]||'sb-pend';
+    const ssCell = e.screenshot
+      ? `<span class="view-ss" onclick="viewSS(${ri})">View 📷</span>`
+      : '<span style="color:#7a6a52;font-size:.74rem">Cash</span>';
+    const acts = e.status==='Pending'
+      ? `<div class="abtns"><button class="abtn abtn-ok" onclick="updStatus(${ri},'Confirmed')">Confirm</button><button class="abtn abtn-no" onclick="updStatus(${ri},'Rejected')">Reject</button></div>`
+      : `<div class="abtns"><button class="abtn" style="background:rgba(200,146,42,.1);color:#c8922a" onclick="updStatus(${ri},'Pending')">Reset</button></div>`;
+    tbody.innerHTML += `<tr>
+      <td><code style="font-size:.72rem;color:#8b3a1c">#${e.ref}</code></td>
+      <td><strong>${e.name}</strong><br><span style="font-size:.72rem;color:#7a6a52">${e.phone}</span></td>
+      <td>${(e.course||'').split('—')[0].trim()}</td>
+      <td>${(e.batch||'').split('(')[0].trim()}</td>
+      <td>${e.payment}</td><td>${ssCell}</td><td>${e.date}</td>
+      <td><span class="sbadge ${sc}"><span class="sb-dot"></span>${e.status}</span></td>
+      <td>${acts}</td></tr>`;
+  });
+}
+
+async function updStatus(i, s) {
+  showLoader('Updating…');
+  const all = await getAll(); all[i].status = s; await saveAll(all);
+  hideLoader(); loadAdmin();
+}
+
+async function viewSS(i) {
+  const all = await getAll(); const e = all[i];
+  document.getElementById('mImg').src = e.screenshot;
+  document.getElementById('mInfo').innerHTML =
+    `<p><strong>Student:</strong> ${e.name}</p><p><strong>Course:</strong> ${e.course}</p><p><strong>Ref:</strong> #${e.ref}</p><p><strong>Date:</strong> ${e.date}</p>`;
+  document.getElementById('ssModal').classList.add('show');
+}
+function closeModal() { document.getElementById('ssModal').classList.remove('show'); }
+
+// Auto-refresh admin every 30 s
+setInterval(() => {
+  if (document.getElementById('adminPanel')?.style.display !== 'none') loadAdmin();
+}, 30000);
+
+// ══════════════════════════════════════════════════════════════
+// CONTACT FORM
+// ══════════════════════════════════════════════════════════════
+function sendEnquiry() {
+  const n = document.getElementById('cName').value.trim();
+  if (!n) { alert('Please enter your name.'); return; }
+  const btn = document.getElementById('enquiryBtn');
+  btn.textContent = "✓ Enquiry Sent! We'll contact you soon.";
+  btn.style.background = '#4a6741'; btn.disabled = true;
+}
+
+// ══════════════════════════════════════════════════════════════
+// CHATBOT
+// ══════════════════════════════════════════════════════════════
+let chatOpen=false, chatInited=false;
+const botKB = {
+  fees:    'Our monthly fees:\n📚 Class XI — ₹800/month\n📚 Class XII — ₹1,000/month\n📚 B.Com — ₹1,200/month\nOne-time registration: ₹200.',
+  timing:  'Batch timings:\n🌅 Morning: 7:00–9:00 AM\n🌆 Evening: 5:00–7:00 PM (Mon–Sat)\nSunday: Doubt clearing 9–11 AM',
+  location:'📍 42/B, Bosepukur Road, Kasba, Kolkata – 700 042\nNearest metro: Kasba Station (500m)\nPhone: +91 98300 12345',
+  course:  'We offer:\n✦ Class XI Commerce (WB Board)\n✦ Class XII Commerce (WB Board)\n✦ B.Com Pass (Calcutta University)\n✦ B.Com Honours (Calcutta University)',
+  teacher: 'Shri Gopal Saha has 40+ years of teaching! M.Com, Calcutta University · Former WB Board examiner · 2,500+ students 🏆',
+  payment: 'We accept:\n💳 UPI (scan QR code at enrolment)\n💵 Cash at the coaching centre\nPay ₹200 registration + first month at joining.',
+  contact: '📞 +91 98300 12345 (call/WhatsApp)\n✉️ gopalsahaclasses@gmail.com\nMon–Sat 8 AM – 8 PM',
+  status:  'To check your status, click "Student Login" and enter your Reference ID + registered phone number.',
+  default: "I'm not sure about that! Please call +91 98300 12345 for specific queries. 😊"
+};
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chatWin').classList.toggle('open', chatOpen);
+  document.getElementById('chatFab').innerHTML = chatOpen ? '✕' : '💬';
+  if (chatOpen) {
+    document.querySelector('.chat-badge')?.remove();
+    if (!chatInited) { chatInited=true; initChat(); }
+  }
+}
+function initChat() {
+  addBot('Namaskar! 🙏 Welcome to **Gopal Saha Commerce Classes**. How can I help?');
+  setTimeout(() => { addBot('Quick answers:'); showQR(['Fees & Charges','Courses','Batch Timings','Our Location','Enrolment Status','Contact']); }, 800);
+}
+function addBot(t) {
+  const m=document.getElementById('chatMsgs'), d=document.createElement('div');
+  d.className='msg bot'; d.innerHTML=t.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  m.appendChild(d); m.scrollTop=m.scrollHeight;
+}
+function addUser(t) {
+  const m=document.getElementById('chatMsgs'), d=document.createElement('div');
+  d.className='msg user'; d.textContent=t; m.appendChild(d); m.scrollTop=m.scrollHeight;
+}
+function showTyping() {
+  const m=document.getElementById('chatMsgs'), d=document.createElement('div');
+  d.className='msg typing'; d.id='typDot';
+  d.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';
+  m.appendChild(d); m.scrollTop=m.scrollHeight;
+}
+function hideTyping() { document.getElementById('typDot')?.remove(); }
+function showQR(opts) {
+  const c=document.getElementById('qReplies'); c.innerHTML='';
+  opts.forEach(o => { const b=document.createElement('button'); b.className='qr'; b.textContent=o; b.onclick=()=>handleQR(o); c.appendChild(b); });
+}
+function handleQR(t) {
+  document.getElementById('qReplies').innerHTML='';
+  if (t==='Enrol Now'||t==='Yes, Enrol!') { addUser(t); addBot('Taking you to the enrolment form now 🎓'); setTimeout(()=>{toggleChat();goPage('enroll');},700); return; }
+  if (t==='Enrolment Status') { addUser(t); addBot('Click **Student Login** in the menu, then enter your Reference ID and phone number.'); setTimeout(()=>showQR(['Go to Student Login','Other Questions']),600); return; }
+  if (t==='Go to Student Login') { addUser(t); addBot('Taking you there now!'); setTimeout(()=>{toggleChat();goPage('student-login');},700); return; }
+  if (t==='Other Questions') { addUser(t); addBot('Sure! What would you like to know?'); setTimeout(()=>showQR(['Fees & Charges','Courses','Batch Timings','Our Location','Contact']),600); return; }
+  addUser(t); processBot(t);
+}
+function sendMsg() {
+  const inp=document.getElementById('chatIn'); const t=inp.value.trim(); if(!t) return;
+  inp.value=''; document.getElementById('qReplies').innerHTML=''; addUser(t); processBot(t);
+}
+function processBot(t) {
+  const l=t.toLowerCase(); showTyping();
+  setTimeout(()=>{
+    hideTyping();
+    let r=botKB.default;
+    if(/fee|cost|charge|price|rupee/.test(l)) r=botKB.fees;
+    else if(/timing|time|batch|schedule|morning|evening/.test(l)) r=botKB.timing;
+    else if(/where|location|address|kasba|metro|bus/.test(l)) r=botKB.location;
+    else if(/course|class|xi|xii|bcom|subject/.test(l)) r=botKB.course;
+    else if(/teacher|gopal|sir|experience|who/.test(l)) r=botKB.teacher;
+    else if(/pay|upi|cash|qr/.test(l)) r=botKB.payment;
+    else if(/contact|phone|call|whatsapp|email/.test(l)) r=botKB.contact;
+    else if(/status|check|enrol|admission|join|register/.test(l)) r=botKB.status;
+    else if(/hi|hello|hey|namaste/.test(l)) r='Hello! 🙏 How can I help you today?';
+    addBot(r);
+    setTimeout(()=>showQR(['Fees & Charges','Batch Timings','Enrol Now','Our Location']),600);
+  },900);
+}
+
+// ══════════════════════════════════════════════════════════════
+// PARTICLES
+// ══════════════════════════════════════════════════════════════
+(function() {
+  const cv=document.getElementById('pcv'); if(!cv) return;
+  const ctx=cv.getContext('2d'); let W,H,pts=[];
+  function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+  resize(); window.addEventListener('resize',resize);
+  for(let i=0;i<60;i++) pts.push({x:Math.random()*W,y:Math.random()*H,dx:(Math.random()-.5)*.35,dy:(Math.random()-.5)*.35,r:Math.random()*1.8+.4,o:Math.random()*.4+.1});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,146,42,${p.o})`;ctx.fill();
+      p.x+=p.dx;p.y+=p.dy;
+      if(p.x<0||p.x>W)p.dx*=-1;if(p.y<0||p.y>H)p.dy*=-1;
+    });
+    pts.forEach((p,i)=>pts.slice(i+1).forEach(q=>{
+      const d=Math.hypot(p.x-q.x,p.y-q.y);
+      if(d<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(200,146,42,${.06*(1-d/120)})`;ctx.lineWidth=.7;ctx.stroke();}
+    }));
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ══════════════════════════════════════════════════════════════
+// SCROLL REVEAL
+// ══════════════════════════════════════════════════════════════
+const ro = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// ══════════════════════════════════════════════════════════════
+// CARD TILT (desktop only)
+// ══════════════════════════════════════════════════════════════
+if (window.innerWidth>900) {
+  document.querySelectorAll('.fee-card,.c-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform=`perspective(600px) rotateY(${x*7}deg) rotateX(${-y*7}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='';});
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+// SEED DEMO DATA into shared storage (only if empty)
+// ══════════════════════════════════════════════════════════════
+(async function seed() {
+  try {
+    const existing = await getAll();
+    if (existing.length === 0) {
+      await saveAll([
+        {ref:'GS-101010',name:'Priya Mondal', dob:'2007-03-15',phone:'919871234567',parent:'Sunita Mondal',email:'priya@gmail.com', address:'Salt Lake, Kolkata', course:'Class XII Commerce — ₹1,000/month',batch:'Morning Batch (7:00 AM – 9:00 AM)',school:'South Point',       source:'Friend',          payment:'UPI', screenshot:'',date:'12/04/2025',status:'Confirmed'},
+        {ref:'GS-202020',name:'Arjun Sen',    dob:'2007-08-22',phone:'919763155432',parent:'Biplab Sen',  email:'arjun@gmail.com', address:'Jadavpur, Kolkata',   course:'Class XI Commerce — ₹800/month',     batch:'Evening Batch (5:00 PM – 7:00 PM)',school:'Jadavpur Vidyapith',source:'Google',          payment:'Cash',screenshot:'',date:'11/04/2025',status:'Pending'},
+        {ref:'GS-303030',name:'Tanya Roy',    dob:'2003-11-05',phone:'919901288765',parent:'Ramesh Roy', email:'tanya@gmail.com', address:'Kasba, Kolkata',      course:'B.Com Honours — ₹1,200/month',       batch:'Morning Batch (7:00 AM – 9:00 AM)',school:'Ashutosh College', source:'Existing Student',payment:'UPI', screenshot:'',date:'10/04/2025',status:'Pending'}
+      ]);
+    }
+  } catch(e) { console.log('Seed skipped'); }
+})();
+</script>
+</body>
+</html>
