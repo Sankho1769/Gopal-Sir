@@ -1030,11 +1030,7 @@ tr:hover td{background:#fdf9f0}
 
 </div>
 </div>
-</div><!-- /page-student-dash -->
-
-<!-- ═══════════════════════════════════
-     ADMIN PAGE
-═══════════════════════════════════ -->
+</div>
 <div id="page-admin" class="page">
 <nav class="nav" style="position:relative">
   <div class="nav-logo" onclick="goPage('home')">Gopal <span>Saha</span></div>
@@ -1168,9 +1164,6 @@ function scrollSec(sel) {
   setTimeout(() => { const el = document.querySelector(sel); if(el) el.scrollIntoView({behavior:'smooth'}); }, 120);
 }
 
-// ══════════════════════════════════════════════════════════════
-// MOBILE MENU
-// ══════════════════════════════════════════════════════════════
 function toggleMobMenu() {
   document.getElementById('hamBtn').classList.toggle('open');
   document.getElementById('mobDrawer').classList.toggle('open');
@@ -1182,9 +1175,6 @@ function closeMobMenu() {
   document.body.style.overflow = '';
 }
 
-// ══════════════════════════════════════════════════════════════
-// ENROLLMENT FORM
-// ══════════════════════════════════════════════════════════════
 let curStep = 1, selPay_ = '', ss = '';
 const feeMap = {
   'Class XI Commerce — ₹800/month': 800,
@@ -1282,9 +1272,6 @@ async function submitForm() {
   nextStep(4);
 }
 
-// ══════════════════════════════════════════════════════════════
-// STUDENT LOGIN
-// ══════════════════════════════════════════════════════════════
 function normalize(s)      { return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
 function normalizePhone(s) { return (s||'').replace(/[\s\-\(\)\+]/g,''); }
 function showErr(id, msg)  { const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
@@ -1386,9 +1373,6 @@ function fillDash(e) {
   document.getElementById('di-pay').textContent     = e.payment||'—';
 }
 
-// ══════════════════════════════════════════════════════════════
-// ADMIN
-// ══════════════════════════════════════════════════════════════
 function adminLogin() {
   const u=document.getElementById('aUser').value, p=document.getElementById('aPass').value;
   if (u==='admin' && p==='gopal2025') {
@@ -1480,9 +1464,6 @@ function sendEnquiry() {
   btn.style.background = '#4a6741'; btn.disabled = true;
 }
 
-// ══════════════════════════════════════════════════════════════
-// CHATBOT
-// ══════════════════════════════════════════════════════════════
 let chatOpen=false, chatInited=false;
 const botKB = {
   fees:    'Our monthly fees:\n📚 Class XI — ₹800/month\n📚 Class XII — ₹1,000/month\n📚 B.Com — ₹1,200/month\nOne-time registration: ₹200.',
@@ -1560,9 +1541,6 @@ function processBot(t) {
   },900);
 }
 
-// ══════════════════════════════════════════════════════════════
-// PARTICLES
-// ══════════════════════════════════════════════════════════════
 (function() {
   const cv=document.getElementById('pcv'); if(!cv) return;
   const ctx=cv.getContext('2d'); let W,H,pts=[];
