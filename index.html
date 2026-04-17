@@ -6,9 +6,6 @@
 <title>Gopal Saha Commerce Classes | Kolkata</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-/* ════════════════════════════════════════
-   DESIGN TOKENS
-════════════════════════════════════════ */
 :root{
   --ink:#1a1208;--paper:#fdf6e3;--gold:#c8922a;--gold-l:#e8b84b;
   --rust:#8b3a1c;--cream:#f5ead0;--sage:#4a6741;--muted:#7a6a52;
@@ -21,17 +18,10 @@
 html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;line-height:1.7;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
-
-/* ════════════════════════════════════════
-   PAGE SYSTEM
-════════════════════════════════════════ */
 .page{display:none;min-height:100vh}
 .page.active{display:block;animation:pageIn .4s cubic-bezier(.22,1,.36,1)}
 @keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
-/* ════════════════════════════════════════
-   UTILITY
-════════════════════════════════════════ */
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
@@ -42,20 +32,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes ping{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
 @keyframes typeDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
 @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
 .shimmer{background:linear-gradient(90deg,var(--gold) 0%,var(--gold-l) 40%,#fffbe8 50%,var(--gold-l) 60%,var(--gold) 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
-
-/* ════════════════════════════════════════
-   PARTICLES
-════════════════════════════════════════ */
 #pcv{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4}
-
-/* ════════════════════════════════════════
-   BUTTONS
-════════════════════════════════════════ */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
 .btn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,255,255,.25),transparent 70%);opacity:0;transition:opacity .3s}
 .btn:active::after{opacity:1}
@@ -70,19 +51,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .btn-danger:hover{border-color:var(--danger);color:var(--danger)}
 .btn-sm{padding:8px 16px;font-size:.78rem;border-radius:6px}
 .btn-full{width:100%;margin-top:6px}
-
-/* ════════════════════════════════════════
-   FORM ELEMENTS
-════════════════════════════════════════ */
 .fg{margin-bottom:16px}
 .fg label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
 .fg input,.fg select,.fg textarea{width:100%;background:var(--white);border:1.5px solid rgba(200,146,42,.2);border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,146,42,.1)}
 .fg textarea{resize:vertical;min-height:88px}
-
-/* ════════════════════════════════════════
-   NAV — DESKTOP
-════════════════════════════════════════ */
 .nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:15px 5vw;background:rgba(253,246,227,.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(200,146,42,.18)}
 .nav-logo{font-family:'Playfair Display',serif;font-size:1.18rem;font-weight:900;color:var(--rust);cursor:pointer;flex-shrink:0}
 .nav-logo span{color:var(--gold)}
@@ -90,8 +63,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .nav-links a{text-decoration:none;font-size:.8rem;font-weight:500;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;cursor:pointer;transition:color .2s}
 .nav-links a:hover{color:var(--gold)}
 .nav-right{display:flex;gap:8px;align-items:center}
-
-/* Mobile nav */
 .mob-nav{display:none;position:fixed;top:0;left:0;right:0;z-index:900;padding:14px 5vw;background:rgba(253,246,227,.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(200,146,42,.18);align-items:center;justify-content:space-between}
 .mob-hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:5px}
 .mob-hamburger span{display:block;width:24px;height:2px;background:var(--rust);border-radius:2px;transition:all .3s}
@@ -103,10 +74,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .mob-drawer a,.mob-drawer button.mob-link{display:block;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:20px;cursor:pointer;background:none;border:none;text-align:left;text-decoration:none;padding:0;transition:color .2s}
 .mob-drawer a:hover,.mob-drawer button.mob-link:hover{color:var(--gold)}
 .mob-drawer-actions{margin-top:auto;display:flex;flex-direction:column;gap:12px}
-
-/* ════════════════════════════════════════
-   HERO — DESKTOP (two-col)
-════════════════════════════════════════ */
 .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding:110px 5vw 60px;gap:60px;align-items:center;position:relative;overflow:hidden}
 .hero-glow{position:absolute;right:-150px;top:-150px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(200,146,42,.1),transparent 70%);animation:pulse 7s ease-in-out infinite;pointer-events:none}
 .hero-float-badge{position:absolute;bottom:130px;right:6vw;background:var(--ink);color:var(--white);padding:13px 18px;border-radius:12px;font-size:.76rem;font-weight:600;box-shadow:0 16px 48px rgba(0,0,0,.2);animation:float 4s ease-in-out infinite;line-height:1.4}
